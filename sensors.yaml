@@ -1,0 +1,15 @@
+
+# Predição de Temperatura
+- platform: yr
+
+# Teste
+- platform: random
+
+# Time / Date
+- platform: time_date
+  display_options:
+      - 'time'
+      - 'date'
+- platform: worldclock
+  time_zone: America/Sao_Paulo
+  name: 'Brasília'

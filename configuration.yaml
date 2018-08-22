@@ -1,6 +1,6 @@
 homeassistant:
   # Name of the location where Home Assistant is running
-  name: DECOM
+  name: Genio
   # Location required to calculate the time the sun rises and sets
   latitude: -19.939623
   longitude: -43.998239
@@ -21,6 +21,12 @@ frontend:
 
 # Enables configuration UI
 config:
+
+panel_iframe:
+  configurator:
+    title: Configurator
+    icon: mdi:wrench
+    url: http://127.0.0.1:3218
 
 http:
   # Secrets are defined in the file secrets.yaml
@@ -55,13 +61,15 @@ map:
 # Track the sun
 sun:
 
-# Weather prediction
-sensor:
-  - platform: yr
+
+  
 
 # Text to speech
 tts:
   - platform: google
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 300
 
 # Cloud
 cloud:
@@ -75,24 +83,23 @@ mqtt:
   port: 1883          #by default 
   protocol: 3.1       #by default
   #username: USERNAME #optional
-  #password: PASSWORD #optional; 
+  #password: PASSWORD #optional
 
 
 switch:
   platform: mqtt
   name: "MeuLED"
-  command_topic: "homeassistant/teste" #Topic sur lequel on publie l'état de l'interrupteur
-  payload_on: "ON"   # A vous de choisir le message envoyé lorsque l'interrupteur est allumé&nbsp;
-  payload_off: "OFF" # et éteint
-  optimistic: true   # Mettez à true pour maintenir l'état
+  command_topic: "homeassistant/teste" # Tópico em que os dispositivos vão se inscrever 
+  payload_on: "ON"   # A mensagem a ser enviada como payload para ligar;
+  payload_off: "OFF" # A mensagem a ser enviada como payload para desligar;
+  optimistic: true   # Setado para true para manter o estado.
   qos: 0
   retain: true
   value_template: '{{ value.x }}'
 
 
 
-
-
+sensor: !include sensors.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
