@@ -89,7 +89,8 @@ mqtt:
 switch:
   platform: mqtt
   name: "MeuLED"
-  command_topic: "homeassistant/teste" # Tópico em que os dispositivos vão se inscrever 
+  state_topic: "luz/status"
+  command_topic: "luz/switch"
   payload_on: "ON"   # A mensagem a ser enviada como payload para ligar;
   payload_off: "OFF" # A mensagem a ser enviada como payload para desligar;
   optimistic: true   # Setado para true para manter o estado.
