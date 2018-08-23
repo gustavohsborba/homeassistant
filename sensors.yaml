@@ -19,7 +19,7 @@
   name: "luz"
   state_topic: "luz/status"
   command_topic: "luz/switch"
-  state_value_template: "{{ value_json.state }}"
+  state_value_template: "{{ value.x }}"
   qos: 0
   payload_on: "ON"
   payload_off: "OFF"
