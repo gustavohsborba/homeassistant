@@ -90,7 +90,7 @@ switch:
   platform: mqtt
   name: "MeuLED"
   state_topic: "luz/status"
-  command_topic: "luz/switch"
+  command_topic: "luz/set"
   payload_on: "ON"   # A mensagem a ser enviada como payload para ligar;
   payload_off: "OFF" # A mensagem a ser enviada como payload para desligar;
   optimistic: true   # Setado para true para manter o estado.

@@ -7,3 +7,12 @@
     service: persistent_notification.create
     data:
       message: "Sensor value greater than 10"
+
+- alias: 'Notification received from MQTT about LED state'
+  trigger:
+    platform: mqtt
+    topic: "luz/status"
+  action:
+    service: persistent_notification.create
+    data:
+      message: 'Message Payload on luz/status: {{ trigger.payload }}'

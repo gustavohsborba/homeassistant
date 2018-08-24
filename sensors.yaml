@@ -1,24 +1,23 @@
 
 # Predição de Temperatura
-- platform: yr
+#- platform: yr
 
 # Teste
-- platform: random
+#- platform: random
 
 # Time / Date
-- platform: time_date
-  display_options:
-      - 'time'
-      - 'date'
-- platform: worldclock
-  time_zone: America/Sao_Paulo
-  name: 'Brasília'
+#- platform: time_date
+#  display_options:
+#      - 'time'
+#      - 'date'
+#- platform: worldclock
+#  time_zone: America/Sao_Paulo
+#  name: 'Brasília'
 
 # Tópicos MQTT para ligar/desligar uma luz:
 - platform: mqtt
   name: "luz"
   state_topic: "luz/status"
-  command_topic: "luz/switch"
   state_value_template: "{{ value.x }}"
   qos: 0
   payload_on: "ON"
