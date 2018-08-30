@@ -70,6 +70,9 @@ tts:
     cache: true
     cache_dir: /tmp/tts
     time_memory: 300
+  - platform: picotts
+    language: 'pt-BR'
+
 
 # Cloud
 cloud:
@@ -100,6 +103,12 @@ switch:
   retain: true
   value_template: '{{ value.x }}'
 
+
+input_boolean:
+  successful_command:
+    name: Tell if command is successful
+    initial: off
+    icon: mdi:car
 
 
 sensor: !include sensors.yaml

@@ -1,0 +1,6 @@
+say_command_success:
+  alias: "successful command"
+  sequence:
+    - service: tts.google_say
+      data_template:
+        message: "{{ message }}"

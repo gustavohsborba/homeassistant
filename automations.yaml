@@ -1,17 +1,45 @@
-- alias: 'Notification received from MQTT about LED state'
+- alias: 'MQTT LED state'
   trigger:
     platform: mqtt
     topic: "luz/status"
   action:
-    service: persistent_notification.create
-    data:
-      message: 'Message Payload on luz/status: {{ states.sensor.luz.state }}'
+    - service: persistent_notification.create
+      data:
+        message: 'Message Payload on luz/status: {{ states.sensor.luz.state }}'
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.successful_command
 
-- alias: 'Notification received from MQTT about LED availability'
+- alias: 'MQTT LED availability'
   trigger:
     platform: mqtt
     topic: "luz/available"
   action:
-    service: persistent_notification.create
+    - service: persistent_notification.create
+      data:
+        message: 'Message Payload on luz/available: {{ trigger.event }}'
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.successful_command
+
+- alias: 'command success'
+  trigger:
+    - platform: state
+      entity_id: input_boolean.successful_command
+  action:
+    - service: script.say_command_success
+      data:
+        message: 'Seu desejo é uma ordem!'
+
+- alias: 'Turn off input_boolean.successful_command'
+  trigger:
+    platform: time
+    seconds: 5
+  condition:
+    condition: state
+    entity_id: input_boolean.successful_command
+    state: 'on'
+  action:
+    service: input_boolean.turn_off
     data:
-      message: 'Message Payload on luz/available: {{ trigger.event }}'
+        entity_id: input_boolean.successful_command
