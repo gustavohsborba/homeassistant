@@ -18,7 +18,6 @@
 - platform: mqtt
   name: "luz"
   state_topic: "luz/status"
-  availability_topic: "luz/available"
   state_value_template: "{{ value.x }}"
   state_format: 'json:value.x'
   qos: 0
