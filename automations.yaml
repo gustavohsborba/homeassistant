@@ -20,9 +20,6 @@
     - service: persistent_notification.create
       data:
         message: 'Message Payload on luz/available: {{ trigger.event }}'
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.successful_command
 
 - id: command_success_tts
   alias: 'command success TTS'
@@ -30,26 +27,25 @@
     - platform: state
       entity_id: input_boolean.successful_command
   action:
-    - service: script.say_command_success
-      data:
-        message: 'Seu desejo é uma ordem!'
-    - service: persistent_notification.create
+    - service: script.say_command
       data:
         message: 'Seu desejo é uma ordem!'
 
 - id: command_success_post_config
   alias: 'Turn off Command Success Boolean'
   trigger:
-    platform: time
-    seconds: 5
+    - platform: state
+      entity_id: input_boolean.successful_command
   condition:
     condition: state
     entity_id: input_boolean.successful_command
     state: 'on'
   action:
     - service: input_boolean.turn_off
+      delay: '00:00:05'
       data:
         entity_id: input_boolean.successful_command
     - service: persistent_notification.create
+      delay: '00:00:05'
       data:
         message: 'Command Success turned off'

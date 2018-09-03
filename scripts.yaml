@@ -1,4 +1,4 @@
-say_command_success:
+say_command:
   alias: "successful command"
   sequence:
     - service: tts.google_say
