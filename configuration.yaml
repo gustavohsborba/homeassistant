@@ -75,6 +75,11 @@ tts:
     language: 'en-US'
 
 
+media_player:
+  - platform: vlc
+    name: speaker_1
+    arguments: '--alsa-audio-device=hw:0,0'
+
 # Cloud
 cloud:
 
