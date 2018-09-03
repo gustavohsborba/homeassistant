@@ -1,0 +1,73 @@
+    1  ps -p 1 -o comm=
+    2  whereis hass
+    3  sudo -u homeassistant -H -s
+    4  sudo touch /etc/systemd/system/home-assistant@homeassistant.service
+    5  sudo gedit /etc/systemd/system/home-assistant@homeassistant.service
+    6  sudo nano -w /etc/systemd/system/home-assistant@homeassistant.service
+    7  ifconfig
+    8  sudo systemctl --system daemon-reload
+    9  sudo systemctl enable home-assistant@homeassistant
+   10  sudo systemctl start home-assistant@homeassistant
+   11  sudo passwd homeassistant
+   12  sudo systemctl status home-assistant@homeassistant
+   13  shutdown
+   14  shutdown --now
+   15  shutdown -f
+   16  shutdown -now
+   17  shutdown --help
+   18  shutdown $gettime
+   19  gettime
+   20  time
+   21  now
+   22  sudo su
+   23  sudo apt-get install openssh
+   24  sudo apt-get install openssh-server 
+   25  sudo su
+   26  sudo apt-get update
+   27  sudo apt-get upgrade
+   28  sudo apt-get update
+   29  sudo apt-get install python3 python3-venv python3-pip
+   30  sudo useradd -rm homeassistant -G dialout, gpio
+   31  sudo useradd -rm homeassistant -G dialout,gpio
+   32  cd /srv
+   33  sudo mkdir homeassistant
+   34  sudo chown homeassistant:homeassistant homeassistant
+   35  sudo -u homeassistant -H -s
+   36  mosquitto_pub -d -t hello/world -m "Hello from Terminal window 2!"
+   37  cd /home/homeassistant/.homeassistant/
+   38  git status
+   39  git pull
+   40  git stash
+   41  git st
+   42  git status
+   43  diff entity_registry.yaml 
+   44  git status
+   45  git pull origin master
+   46  su homeassistant 
+   47  cat secrets.yaml 
+   48  nano http_password
+   49  nano secrets.yaml 
+   50  su homeassistant 
+   51  git status
+   52  git add .
+   53  ls
+   54  ifconfig
+   55  mosquitto_sub -d -t hello/world
+   56  cd /home/homeassistant/.homeassistant/
+   57  git status
+   58  su homeassistant
+   59  sudo apt-get install vlc-nox
+   60  sudo usermod -a -G audio homeassistant
+   61  su homeassistant
+   62  restart
+   63  shutdown -r
+   64  sudo shutdown -r
+   65  kls
+   66  ls
+   67  cd /home/homeassistant/.homeassistant/
+   68  git st
+   69  git status
+   70  git pull
+   71  su homeassistant
+   72  history > history.txt
+   73  history > ~/history.txt
