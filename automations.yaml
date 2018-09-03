@@ -1,4 +1,5 @@
-- alias: 'MQTT LED state'
+- id: led_state
+  alias: 'MQTT LED state'
   trigger:
     platform: mqtt
     topic: "luz/status"
@@ -10,7 +11,8 @@
       data:
         entity_id: input_boolean.successful_command
 
-- alias: 'MQTT LED availability'
+- id: led_availability
+  alias: 'MQTT LED availability'
   trigger:
     platform: mqtt
     topic: "luz/available"
@@ -22,7 +24,8 @@
       data:
         entity_id: input_boolean.successful_command
 
-- alias: 'command success'
+- id: command_success_tts
+  alias: 'command success'
   trigger:
     - platform: state
       entity_id: input_boolean.successful_command
@@ -31,7 +34,8 @@
       data:
         message: 'Seu desejo é uma ordem!'
 
-- alias: 'Turn off input_boolean.successful_command'
+- id: command_success_post_config
+  alias: 'Turn off input_boolean.successful_command'
   trigger:
     platform: time
     seconds: 5

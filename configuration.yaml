@@ -70,6 +70,7 @@ tts:
     cache: true
     cache_dir: /tmp/tts
     time_memory: 300
+    language: 'pt-br'
   - platform: picotts
     language: 'pt-BR'
 
@@ -108,7 +109,7 @@ input_boolean:
   successful_command:
     name: Tell if command is successful
     initial: off
-    icon: mdi:car
+    icon: mdi:playlist-check
 
 
 sensor: !include sensors.yaml
