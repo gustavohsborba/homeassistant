@@ -72,7 +72,7 @@ tts:
     time_memory: 300
     language: 'pt-br'
   - platform: picotts
-    language: 'pt-BR'
+    language: 'en-US'
 
 
 # Cloud
@@ -107,7 +107,7 @@ switch:
 
 input_boolean:
   successful_command:
-    name: Tell if command is successful
+    name: 'Command Success Boolean'
     initial: off
     icon: mdi:playlist-check
 

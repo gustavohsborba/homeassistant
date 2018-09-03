@@ -25,7 +25,7 @@
         entity_id: input_boolean.successful_command
 
 - id: command_success_tts
-  alias: 'command success'
+  alias: 'command success TTS'
   trigger:
     - platform: state
       entity_id: input_boolean.successful_command
@@ -33,9 +33,12 @@
     - service: script.say_command_success
       data:
         message: 'Seu desejo é uma ordem!'
+    - service: persistent_notification.create
+      data:
+        message: 'Seu desejo é uma ordem!'
 
 - id: command_success_post_config
-  alias: 'Turn off input_boolean.successful_command'
+  alias: 'Turn off Command Success Boolean'
   trigger:
     platform: time
     seconds: 5
@@ -44,6 +47,9 @@
     entity_id: input_boolean.successful_command
     state: 'on'
   action:
-    service: input_boolean.turn_off
-    data:
+    - service: input_boolean.turn_off
+      data:
         entity_id: input_boolean.successful_command
+    - service: persistent_notification.create
+      data:
+        message: 'Command Success turned off'
