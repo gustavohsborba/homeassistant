@@ -112,7 +112,7 @@ switch:
 
 input_boolean:
   successful_command:
-    name: 'Command Success Boolean'
+    name: 'Command Success'
     initial: off
     icon: mdi:playlist-check
 
