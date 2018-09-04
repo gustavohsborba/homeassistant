@@ -1,7 +1,0 @@
-say_command:
-  alias: "successful command"
-  sequence:
-    - service: tts.google_say
-      entity_id: media_player.speaker_1
-      data_template: 
-        message: "{{ message }}"
