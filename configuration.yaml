@@ -74,12 +74,15 @@ tts:
     language: 'pt-br'
   - platform: picotts
     language: 'en-US'
+  - platform: espeak_tts_success
 
 
 media_player:
   - platform: vlc
     name: speaker_1
     arguments: '--alsa-audio-device=hw:0,0'
+
+espeak_tts_success:
 
 # Cloud
 cloud:
