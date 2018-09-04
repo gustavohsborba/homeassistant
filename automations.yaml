@@ -38,8 +38,12 @@
       data_template: 
         message: 'Seu desejo é uma ordem!'
     - delay: '00:00:05'
-    - service: python_script.espeak_success
-    - delay: '00:00:10'
+    - service: espeak_tts_success.speak
+    - delay: '00:00:05'
+    - service: espeak_tts_success.speak
+      data_template:
+        {'message': 'Teste'}
+    - delay: '00:00:05'
     - service: python_script.espeak_tts
       data_template:
         {'message': 'Seu desejo é uma ordem!'}
