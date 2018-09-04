@@ -4,9 +4,8 @@
     platform: mqtt
     topic: "luz/status"
   action:
-    - service: notify.pushbullet
+    - service: persistent_notification.create
       data:
-        title: ""
         message: 'Message Payload on luz/status: {{ states.sensor.luz.state }}'
     - service: input_boolean.turn_on
       data:
@@ -20,9 +19,8 @@
     platform: mqtt
     topic: "luz/available"
   action:
-    - service: notify.pushbullet
+    - service: persistent_notification.create
       data:
-        title: ""
         message: 'Message Payload on luz/available: {{ trigger.event }}'
 
 
