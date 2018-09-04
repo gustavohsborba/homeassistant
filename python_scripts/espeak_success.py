@@ -1,7 +1,7 @@
 '''
 Pré-requisitos:
 sudo apt-get update && sudo apt-get install espeak
-pip install pywin32 pypiwin32 pyttsx3
+pip install pyttsx3
 '''
 
 import pyttsx3 # importamos o modulo pytts
