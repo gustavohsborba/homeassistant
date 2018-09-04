@@ -38,6 +38,11 @@
       data_template: 
         message: 'Seu desejo é uma ordem!'
     - delay: '00:00:05'
+    - service: python_script.espeak_success
+    - delay: '00:00:10'
+    - service: python_script.espeak_tts
+      data_template:
+        message: 'Seu desejo é uma ordem!'
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.successful_command
