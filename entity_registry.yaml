@@ -1,0 +1,5 @@
+media_player.caiubi_kuromokasuto:
+  config_entry_id: 165d02bf3b0046339109e586520a6ecc
+  name:
+  platform: cast
+  unique_id: cd58aac5-9256-e532-1b79-231ef1d16ba2

@@ -1,0 +1,2 @@
+2018-09-06 23:48:21 WARNING (MainThread) [homeassistant.components.http] You have been advised to set http.api_password.
+2018-09-06 23:48:24 WARNING (MainThread) [homeassistant.loader] You are using a custom component for espeak_tts_success which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you do experience issues with Home Assistant.

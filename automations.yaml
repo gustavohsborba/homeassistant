@@ -1,55 +1,37 @@
 - id: led_state
-  alias: 'MQTT LED state'
+  alias: MQTT LED state
   trigger:
     platform: mqtt
-    topic: "luz/status"
+    topic: luz/status
   action:
-    - service: persistent_notification.create
-      data:
-        message: 'Message Payload on luz/status: {{ states.sensor.luz.state }}'
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.successful_command
-
-
-
-- id: led_availability
-  alias: 'MQTT LED availability'
-  trigger:
-    platform: mqtt
-    topic: "luz/available"
-  action:
-    - service: persistent_notification.create
-      data:
-        message: 'Message Payload on luz/available: {{ trigger.event }}'
-
-
-
-- id: command_success
-  alias: 'command success automation'
-  trigger:
-    - platform: state
+  - service: persistent_notification.create
+    data:
+      message: 'Message Payload on luz/status: {{ states.sensor.luz.state }}'
+  - service: input_boolean.turn_on
+    data:
       entity_id: input_boolean.successful_command
-      from: 'off'
-      to: 'on'
+- id: led_availability
+  alias: MQTT LED availability
+  trigger:
+    platform: mqtt
+    topic: luz/available
   action:
-    - service: tts.google_say
-      entity_id: media_player.speaker_1
-      data_template: 
-        message: 'Seu desejo é uma ordem!'
-    - delay: '00:00:05'
-    - service: espeak_tts_success.speak
-    - delay: '00:00:05'
-    - service: espeak_tts_success.speak
-      data_template:
-        {'message': 'Teste'}
-    - delay: '00:00:05'
-    - service: python_script.espeak_tts
-      data_template:
-        {'message': 'Seu desejo é uma ordem!'}
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.successful_command
-    - service: persistent_notification.create
-      data:
-        message: 'Command Success turned off'
+  - service: persistent_notification.create
+    data:
+      message: 'Message Payload on luz/available: {{ trigger.event }}'
+- id: command_success
+  alias: command success automation
+  trigger:
+  - entity_id: input_boolean.successful_command
+    from: 'off'
+    platform: state
+    to: 'on'
+  action:
+  - service: espeak_tts_success.tts_success
+  - delay: 00:00:05
+  - data:
+      entity_id: input_boolean.successful_command
+    service: input_boolean.turn_off
+  - data:
+      message: Command Success turned off
+    service: persistent_notification.create
