@@ -8,7 +8,7 @@ pip install pyttsx3
 import pyttsx3 # importamos o modulo pytts
 import logging
 
-# The domain of your component. Should be equal to the name of your component.
+# Domínio do componente. Deve ser igual ao nome escrito na configuração do HA
 DOMAIN = "espeak_tts_success"
 _LOGGER = logging.getLogger(__name__)
 
@@ -29,8 +29,8 @@ def setup(hass, config):
 
         _LOGGER.info('Spoken Successfully: Seu desejo é uma ordem!')
 
-    # Register our service with Home Assistant.
+    # Registra o serviço no HomeAssistant
     hass.services.register(DOMAIN, 'tts_success', speak)
 
-    # Return boolean to indicate that initialization was successfully.
+    # Retorna um booleano indicando que a inicialização foi um sucesso
     return True

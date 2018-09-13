@@ -1,5 +1,4 @@
-*
-!*.yaml
+.vscode
 !scenes
 !.gitignore
 secrets.yaml
