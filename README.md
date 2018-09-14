@@ -167,3 +167,38 @@ $ python3 -m venv .
 $ source bin/activate
 (homeassistant) homeassistant@genio:/srv/homeassistant $ pip3 install pyttsx3
 ```
+
+# Usando um dispositivo de audio USB no Raspberry Pi
+
+Inicialmente, é necessário identificar o dispositivo de audio. Foi executado o comando `lsusb` antes e depois de plugar o conversor USB, e foi identificado o dispositivo. 
+Utilizando o comando `amixer` foi possível verificar que existem duas "placas" de audio disponíveis. Com esse comando também é possível verificar qual dispositivo é utilizado atualmente como entrada e saída de audio. Naturalmente, era o dispositivo  endereçado como 0, nativo, que contém apenas saída de áudio. 
+
+Para configurar a utilização do conversor USB como dispositivo padrão de audio, bastou editar o arquivo `/usr/share/alsa/alsa.conf` e alterar as seguintes linhas:
+
+```
+defaults.ctl.card 0
+defaults.pcm.card 0
+```
+para utilizar a placa de endereço 1, pĺugada no USB. Após reiniciar o Raspberry Pi, o dispositivo padrão será o adaptador USB, caso plugado.
+
+Finalmente, com o comando `arecord -l` foi possível ver que o dispositivo de captura de áudio estava devidamente configurado, como demonstra a saída abaixo:
+
+```
+**** List of CAPTURE Hardware Devices ****
+card 1: Device [USB PnP Sound Device], device 0: USB Audio [USB Audio]
+ Subdevices: 1/1
+ Subdevice #0: subdevice #0
+```
+
+Para testá-lo, foi utilizado o comando:
+
+```
+arecord -D hw:1,0 -d 5 -f cd test.wav -c 1
+```
+onde a opção -D especifica o dispositivo de gravação. Uma vez que o microfone está na placa 1, device 0, o valor se torna `hw:1,0`. Esse comando cria o arquivo  `test.wav` de 5 segundos de audio gravado mono (apenas um canal, como indica a opção -c 1). E finalmente, o arquivo de audio pôde ser reproduzido com o comando `aplay test.wav`
+
+Como o audio estava muito baixo, com o comando `alsamixer` foi possível aumentar o ganho do dispositivo, com auxílio de uma interface gráfica.
+
+
+
+
