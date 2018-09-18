@@ -1,3 +1,11 @@
+- alias: "start hotword"
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    service: hotword_snowboy.listen
+
+
 - id: led_state
   alias: MQTT LED state
   trigger:

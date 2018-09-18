@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 def setup(hass, config):
     
     def speak(call):
-        _LOGGER.info('Speech received data: ', call.data)
+        _LOGGER.info('Speech received data: ' + call.data)
         message = call.data.get('message')
         
         engine = pyttsx3.init()  # seleciona um ending de sintetização, default = espeak
@@ -27,7 +27,7 @@ def setup(hass, config):
         engine.setProperty('rate', rate-40)  # Diminui a velocidade da fala, para ficar mais fluido
         engine.say(message) 
         engine.runAndWait()
-        _LOGGER.info('Spoken Successfully: ', message)
+        _LOGGER.info('Spoken Successfully: ' + message)
 
     # Registra o serviço no HomeAssistant
     hass.services.register(DOMAIN, 'speak', speak)

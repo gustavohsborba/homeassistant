@@ -60,9 +60,6 @@ map:
 
 # Track the sun
 sun:
-
-
-python_script:
   
 
 # Text to speech
@@ -120,6 +117,9 @@ input_boolean:
     initial: off
     icon: mdi:playlist-check
 
+hotword_snowboy:
+  model: /home/homeassistant/wake/snowboy/genio.pmdl
+  name: hotword_genio
 
 sensor: !include sensors.yaml
 group: !include groups.yaml
