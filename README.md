@@ -88,6 +88,36 @@ A aplicação HomeAssistant pode ser iniciada uma primeira vez. Quando executada
 Entretanto, não é desejável acessar o servidor via SSH e iniciar a aplicação por um comando sempre que ligá-lo. Assim, é preciso daemonizar o serviço, de forma que ele inicie-se automaticamente com o sistema.
 
 
+## Configurando o microfone USB
+
+a placa de som USB não é configurada como a padrão do sistema debian ao ser ligada. É preciso configurar o sistema para que, caso haja uma placa de som adicional, ele não utilize a placa onboard, mas sim a placa adicionada.
+
+Para fazer isso, bastou editar o arquivo ```/usr/share/alsa/alsa.conf``` e trocar as seguintes linhas:
+```
+defaults.ctl.card 0
+defaults.pcm.card 0
+```
+para 
+```
+defaults.ctl.card 1
+defaults.pcm.card 1
+```
+
+além disso, é preciso criar um arquivo de configuração no diretório home do usuário homeassistant com o comando ```sudo nano /home/homeassistant/.asoundrc``` com o seguinte conteúdo:
+
+```
+pcm.!default {
+    type hw
+    card 1
+}
+
+ctl.!default {
+    type hw
+    card 1
+}
+```
+
+
 ## Configurando o HA para iniciar com o sistema
 
 
