@@ -24,3 +24,13 @@
   payload_on: "ON"
   payload_off: "OFF"
   optimistic: false
+
+# Exibição de informações na tela
+- platform: template
+  sensors:
+    last_text:
+      friendly_name: "Last Text"
+      value_template: "{{ states.stt_pocketsphinx.pocketsphinx.attributes.text }}"
+    last_intent:
+      friendly_name: "Last Intent"
+      value_template: "{{ states.rasa_nlu.recognizer.attributes.intent }}"

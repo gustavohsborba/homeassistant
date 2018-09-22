@@ -66,7 +66,8 @@ Para que ela funcione corretamente com o usupário do sistema criado, é necess�
 
 ```bash
 $ sudo -u homeassistant -H -s
-$ cd /srv/homeassistant
+$ mkdir /home/homeassistant/venv
+$ cd /home/homeassistant/venv
 $ python3 -m venv .
 $ source bin/activate
 ```
@@ -78,7 +79,7 @@ Com o ambiente virutal ativado, foi possível instalar as dependências do pytho
 (homeassistant) homeassistant@genio:/srv/homeassistant $ pip3 install homeassistant
 ```
 
-A aplicação HomeAssistant pode ser iniciada uma primeira vez. Quando executada pela primeira vez, esse comando cria o diretório `/home/homeassistant/.homeassistant`, que configura a aplicação, e instala as demais dependências.
+A aplicação HomeAssistant pode ser iniciada uma primeira vez. Quando executada pela primeira vez, esse comando cria o diretório `/home/homeassistant/.homeassistant`, que configura a aplicação, e instala as suas dependências.
 
 ```bash
 (homeassistant) $ hass
@@ -158,12 +159,25 @@ $ sudo apt-get update && sudo apt-get install vlc-nox espeak
 $ sudo usermod -a -G audio homeassistant
 ```
 
-Para a configuração dos serviços no homeassistant, é necessário instlar a biblioteca espeak também no ambiente virtual da aplicação:
+Para a configuração dos serviços no homeassistant, é necessário instlar as dependências de bibliotecas dos componentes desenvolvidos também no ambiente virtual do python:
 
 ```bash
 $ sudo -u homeassistant -H -s
-$ cd /srv/homeassistant
+$ cd /home/homeassistant/venv
 $ python3 -m venv .
 $ source bin/activate
-(homeassistant) homeassistant@genio:/srv/homeassistant $ pip3 install pyttsx3
+(homeassistant) homeassistant@genio:/home/homeassistant/venv $ pip3 install pyaudio webrtcvad rasa-nlu pyttsx3 spacy
+(homeassistant) homeassistant@genio:/home/homeassistant/venv $ python3 -m pip install https://github.com/Kitt-AI/snowboy/archive/v1.3.0.tar.gz
+(homeassistant) homeassistant@genio:/home/homeassistant/venv $ python3 -m spacy download pt
+```
+
+## Atualizando o repositório:
+
+Eu sei, o que está sendo demonstrado aqui é uma "trapaça". Mas com o homeassistant instalado, é mais fácil copiar o projeto para dentro da pasta de configuração.
+
+```bash
+$ sudo -u homeassistant -H -s
+$ cd /home/homeassistant
+$ git clone git@github.com:gustavohsborba/homeassistant.git
+$ mv homeassistant/* .homeassistant/
 ```

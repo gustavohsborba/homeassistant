@@ -1,9 +1,52 @@
+# Automatically listen for the hotword when Home Assistant starts.
 - alias: "start hotword"
   trigger:
     platform: homeassistant
     event: start
   action:
     service: hotword_snowboy.listen
+
+# Play a sound when the hotword is detected.
+# Start listening for a command.
+- alias: "hotword -> speech to text"
+  trigger:
+    platform: event
+    event_type: hotword_detected
+  action:
+    - service: speech.speak
+      data:
+        message: "Diga"
+    - service: stt_pocketsphinx.listen
+
+# Play a sound when recording of a command has finished.
+- alias: "speech to text working"
+  trigger:
+    platform: event
+    event_type: speech_recorded
+  action:
+    - service: wav_aplay.play_wav
+      data:
+        filename: /home/homeassistant/.homeassistant/data/etc/wav/command_recorded.wav
+
+
+# Pass text from pocketsphinx to the intent recognizer.
+- alias: "speech to text -> intent recognition"
+  trigger:
+    platform: event
+    event_type: speech_to_text
+  action:
+    - service: conversation.process
+      data_template:
+        text: "{{ trigger.event.data['text'] }}"
+    - service: hotword_snowboy.listen
+
+# Force stt_pocketsphinx to reload decoder after training
+- alias: "Reload after training"
+  trigger:
+    platform: event
+    event_type: rhasspy_trained
+  action:
+    - service: stt_pocketsphinx.reset
 
 
 - id: led_state

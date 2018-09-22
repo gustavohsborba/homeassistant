@@ -1,0 +1,19 @@
+default_view:
+  view: yes
+  entities:
+    - group.inside
+    - group.custom_components
+
+inside:
+  name: Inside
+  entities:
+    - switch.MeuLED
+    - input_boolean.successful_command
+
+custom_components_group:
+  name: "custom_components_group"
+  entities:
+    - hotword_snowboy.decoder
+    - stt_pocketsphinx.pocketsphinx
+    - sensor.last_text
+    - sensor.last_intent

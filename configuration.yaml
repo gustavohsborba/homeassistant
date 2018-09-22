@@ -12,7 +12,6 @@ homeassistant:
   time_zone: America/Sao_Paulo
   # Customization file
   customize: !include customize.yaml
-
 # Show links to resources in log and frontend
 introduction:
 
@@ -41,7 +40,7 @@ http:
 # https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
 updater:
   # Optional, allows Home Assistant developers to focus on popular components.
-  # include_used_components: true
+  include_used_components: true
 
 # Discover some devices automatically
 discovery:
@@ -55,13 +54,6 @@ history:
 # View all events in a logbook
 logbook:
 
-# Enables a map showing the location of tracked devices
-map:
-
-# Track the sun
-sun:
-  
-
 # Text to speech
 tts:
   - platform: google
@@ -69,9 +61,17 @@ tts:
     cache_dir: /tmp/tts
     time_memory: 300
     language: 'pt-br'
-  - platform: picotts
-    language: 'en-US'
-  - platform: espeak_tts_success
+
+
+stt_pocketsphinx:
+  acoustic_model: /home/homeassistant/.homeassistant/data/pocketsphinx/pt-br
+  language_model: /home/homeassistant/.homeassistant/data/examples.lm
+  dictionary: /home/homeassistant/.homeassistant/data/mixed.dict
+  timeout_sec: 30.0
+  vad_mode: 0
+  audio_device: 1
+  buffer_size: 2048
+  sample_rate: 44100
 
 
 media_player:
@@ -81,9 +81,27 @@ media_player:
 
 espeak_tts_success:
 
+speech:
+
 # Cloud
 cloud:
 
+
+intent_script:
+  HassTurnOff:
+    action:
+      - service: wav_aplay.play_wav
+        data:
+          filename: /home/homeassistant/.homeassistantetc/wav/intent_recognized.wav
+      - service: switch.turn_off
+        entity_id: switch.living_room_lamp
+  HassTurnOn:
+    action:
+      - service: wav_aplay.play_wav
+        data:
+          filename: /home/homeassistant/homeassistant/etc/wav/intent_recognized.wav
+      - service: switch.turn_on
+        entity_id: switch.living_room_lamp
 
 
 mqtt: 
@@ -118,7 +136,7 @@ input_boolean:
     icon: mdi:playlist-check
 
 hotword_snowboy:
-  model: /home/homeassistant/wake/snowboy/genio.pmdl
+  model: /home/homeassistant/.homeassistant/data/snowboy/genio.pmdl
   name: hotword_genio
 
 sensor: !include sensors.yaml

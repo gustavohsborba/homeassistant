@@ -1,5 +1,14 @@
+*__pycache__*
+.idea/*
+.idea
+.cloud
+.storage
 .vscode
 !scenes
 !.gitignore
 secrets.yaml
 known_devices.yaml
+home-assistant.log
+home-assistant_v2.db
+.HA_VERSION
+.uuid

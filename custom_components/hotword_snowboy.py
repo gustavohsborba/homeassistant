@@ -1,6 +1,20 @@
 """
 Provê a funcionalidade para ouvir a hotword via Snowboy
 Pré-requisitos:
+
+
+sudo apt-get install git build-essential \
+    python3 python3-dev python3-pip python3-venv \
+    libasound2-dev libpulse-dev swig \
+    portaudio19-dev \
+    libttspico-utils \
+    libtcl8.6 \
+    libatlas-dev libatlas-base-dev
+sudo apt-get install liblapack-dev liblapack3 \
+    libopenblas-base libopenblas-dev libatlas-base-dev \
+    libportaudio2 libasound-dev libportaudio2 \
+    libportaudiocpp0 ffmpeg libav-tools \
+    libjack0 libjack-dev portaudio19-dev
 pip install snowboy==1.2.0b1
 """
 import logging
@@ -19,6 +33,9 @@ REQUIREMENTS = ['snowboy==1.2.0b1']
 
 DOMAIN = 'hotword_snowboy'
 
+# ------
+# Config
+# ------
 
 # Path to the snowboy hotword model file (.umdl or .pmdl)
 CONF_MODEL = 'model'
