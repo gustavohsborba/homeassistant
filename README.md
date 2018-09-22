@@ -92,6 +92,22 @@ Entretanto, não é desejável acessar o servidor via SSH e iniciar a aplicaçã
 
 a placa de som USB não é configurada como a padrão do sistema debian ao ser ligada. É preciso configurar o sistema para que, caso haja uma placa de som adicional, ele não utilize a placa onboard, mas sim a placa adicionada.
 
+Uma forma de verificar o número que o sistema estabelece para a placa de som é pelo comando ```lsusb```, antes e depois de plugar a placa de som USB, e verificar qual foi o dispositivo adicionado. Pelo comando ```arecord -l``` é possível listar os dispositivos capazes de gravar audio.
+No caso de um dispositivo USB de gravação:
+
+```
+**** List of Capture Hardware Devices ****
+card 1: Device  [USB PnP Sound Device], device0: USB Audio [USB Audio]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+```
+
+Como a placa é 1 e o subdispositivo é 0, para testar se o dispositivo funciona é possível gravar um audio e reproduzí-lo logo em seguida, executar o comando:
+```
+arecord -D plughw:1,0 -d 3 test.wav && aplay test.wav
+
+```
+
 Para fazer isso, bastou editar o arquivo ```/usr/share/alsa/alsa.conf``` e trocar as seguintes linhas:
 ```
 defaults.ctl.card 0
