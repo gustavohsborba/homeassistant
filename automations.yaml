@@ -16,7 +16,8 @@
     - service: speech.speak
       data:
         message: "Diga"
-    - service: stt_pocketsphinx.listen
+    - service: stt_snowboy.detect_commands
+#    - service: stt_pocketsphinx.listen
 
 # Play a sound when recording of a command has finished.
 - alias: "speech to text working"

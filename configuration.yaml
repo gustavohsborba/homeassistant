@@ -139,6 +139,13 @@ hotword_snowboy:
   model: /home/homeassistant/.homeassistant/data/snowboy/genio.pmdl
   name: hotword_genio
 
+stt_snowboy:
+  models: >
+    {{ ['/home/homeassistant/.homeassistant/data/snowboy/liga-a-luz.pmdl',
+        '/home/homeassistant/.homeassistant/data/snowboy/desligar.pmdl']
+    }}
+  intent_texts: "{{ ['liga a luz','desligar a luz'] }}"
+
 sensor: !include sensors.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
