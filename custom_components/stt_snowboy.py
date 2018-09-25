@@ -20,8 +20,6 @@ pip install snowboy==1.2.0b1
 """
 import os
 import logging
-import asyncio
-import threading
 
 import voluptuous as vol
 
@@ -52,8 +50,8 @@ DEFAULT_NAME = 'pln_snowboy'
 DEFAULT_SENSITIVITY = 0.5
 DEFAULT_AUDIO_GAIN = 1.0
 DEFAULT_TIMEOUT = 30.0
-DEFAULT_MODELS = ['','','','','','','']
-DEFAULT_INTENT_TEXTS = ['','','','','','','']
+DEFAULT_MODELS = ['']
+DEFAULT_INTENT_TEXTS = ['']
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
@@ -91,55 +89,52 @@ OBJECT_SNOWBOY = '%s.decoder' % DOMAIN
 
 interrupted = False
 terminated = False
-
-
-def interrupt_callback():
-    global interrupted
-    global terminated
-    return interrupted or terminated
+counter = 0
 
 
 # -----------------------------------------------------------------------------
 
 def setup(hass, config):
-    _LOGGER.info('')
-    _LOGGER.info('')
-    _LOGGER.info('SETUP INITIALIZED')
     name = config[DOMAIN].get(CONF_NAME, DEFAULT_NAME)
-    models = os.path.expanduser(config[DOMAIN].get(CONF_MODELS))
-    texts = config[DOMAIN].get(CONF_INTENT_TEXTS, DEFAULT_INTENT_TEXTS)
+    models_json = config[DOMAIN].get(CONF_MODELS, DEFAULT_MODELS)
+    texts_json = config[DOMAIN].get(CONF_INTENT_TEXTS, DEFAULT_INTENT_TEXTS)
     sensitivity = config[DOMAIN].get(CONF_SENSITIVITY, DEFAULT_SENSITIVITY)
     audio_gain = config[DOMAIN].get(CONF_AUDIO_GAIN, DEFAULT_AUDIO_GAIN)
+    timeout = config[DOMAIN].get(CONF_TIMEOUT, DEFAULT_TIMEOUT)
     state_attrs = {'friendly_name': 'Snowboy STT', 'icon': 'mdi:microphone'}
-    _LOGGER.info('')
-    _LOGGER.info('')
-    _LOGGER.info('models: ')
-    _LOGGER.info(str(models))
-    _LOGGER.info('texts: ')
-    _LOGGER.info(str(texts))
 
-    for model in models:
+    models = []
+    texts = [t for t in texts_json]
+    assert len(models_json) == len(texts), 'Assign exactly one text for each model'
+    for model in models_json:
         assert os.path.exists(model), 'Model does not exist'
-    assert len(models) == len(texts), 'Assign exactly one text for each model'
+        models.append(str(model))
+    indexed_models = dict(zip(texts, models))
+    _LOGGER.info("MODELS LOADED: %s" % str(indexed_models))
+
+    def interrupt_second():
+        global interrupted
+        global terminated
+        global counter
+        counter += 0.03
+        if int(counter) == timeout:
+            counter = 0
+            return True
+        return interrupted or terminated
 
     def detected_text(text):
         # Fire detected event
+        global terminated
         hass.states.async_set(OBJECT_SNOWBOY, STATE_IDLE, state_attrs)
-        hass.bus.async_fire(EVENT_SPEECH_RECORDED, {
-            'name': name,  # name of the component
-            'size': 1  # bytes of recorded audio data
-        })
+        hass.bus.async_fire(EVENT_SPEECH_RECORDED, {'name': name})
         hass.bus.async_fire(EVENT_SPEECH_TO_TEXT, {
             'name': name,  # name of the component
-            'model': model,  # model used
+            'model': indexed_models[text],  # model used
             'text': text  # text
         })
+        terminated = True
 
     def detect(call):
-        _LOGGER.info('')
-        _LOGGER.info('')
-        _LOGGER.info('CALLED SNOWBOY STT DETECTION')
-
         from snowboy import snowboydecoder
         hass.states.async_set(OBJECT_SNOWBOY, STATE_LISTENING, state_attrs)
 
@@ -147,12 +142,9 @@ def setup(hass, config):
             models, sensitivity=sensitivity, audio_gain=audio_gain)
         callbacks = [lambda: detected_text(t) for t in texts]
         detector.start(detected_callback=callbacks,
-                       interrupt_check=interrupt_callback,
+                       interrupt_check=interrupt_second,
                        sleep_time=0.03)
         detector.terminate()
-
-    hass.services.async_register(DOMAIN, SERVICE_DETECT, detect)
-    hass.states.async_set(OBJECT_SNOWBOY, STATE_IDLE, state_attrs)
 
     # Make sure snowboy terminates property when home assistant stops
     def terminate(event):
@@ -160,7 +152,8 @@ def setup(hass, config):
         terminated = True
         hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, terminate)
 
-    _LOGGER.info('Started')
-
+    hass.services.async_register(DOMAIN, SERVICE_DETECT, detect)
+    hass.states.async_set(OBJECT_SNOWBOY, STATE_IDLE, state_attrs)
+    _LOGGER.info('Snowboy TTS Started')
     return True
 

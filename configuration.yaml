@@ -64,9 +64,9 @@ tts:
 
 
 stt_pocketsphinx:
-  acoustic_model: /home/homeassistant/.homeassistant/data/pocketsphinx/pt-br
-  language_model: /home/homeassistant/.homeassistant/data/examples.lm
-  dictionary: /home/homeassistant/.homeassistant/data/mixed.dict
+  acoustic_model: /opt/cefetmg/data/pocketsphinx/pt-br
+  language_model: /opt/cefetmg/data/examples.lm
+  dictionary: /opt/cefetmg/data/mixed.dict
   timeout_sec: 30.0
   vad_mode: 0
   audio_device: 1
@@ -92,14 +92,14 @@ intent_script:
     action:
       - service: wav_aplay.play_wav
         data:
-          filename: /home/homeassistant/.homeassistantetc/wav/intent_recognized.wav
+          filename: /opt/cefetmg/data/etc/wav/intent_recognized.wav
       - service: switch.turn_off
         entity_id: switch.living_room_lamp
   HassTurnOn:
     action:
       - service: wav_aplay.play_wav
         data:
-          filename: /home/homeassistant/homeassistant/etc/wav/intent_recognized.wav
+          filename: /opt/cefetmg/data/etc/wav/intent_recognized.wav
       - service: switch.turn_on
         entity_id: switch.living_room_lamp
 
@@ -136,15 +136,12 @@ input_boolean:
     icon: mdi:playlist-check
 
 hotword_snowboy:
-  model: /home/homeassistant/.homeassistant/data/snowboy/genio.pmdl
+  model: /opt/cefetmg/data/snowboy/genio.pmdl
   name: hotword_genio
 
 stt_snowboy:
-  models: >
-    {{ ['/home/homeassistant/.homeassistant/data/snowboy/liga-a-luz.pmdl',
-        '/home/homeassistant/.homeassistant/data/snowboy/desligar.pmdl']
-    }}
-  intent_texts: "{{ ['liga a luz','desligar a luz'] }}"
+  models: [ "/opt/cefetmg/data/snowboy/liga-a-luz.pmdl", "/opt/cefetmg/data/snowboy/desligar.pmdl" ]
+  intent_texts: ["liga a luz","desligar a luz"]
 
 sensor: !include sensors.yaml
 group: !include groups.yaml

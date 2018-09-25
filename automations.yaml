@@ -27,7 +27,7 @@
   action:
     - service: wav_aplay.play_wav
       data:
-        filename: /home/homeassistant/.homeassistant/data/etc/wav/command_recorded.wav
+        filename: /opt/cefetmg/data/etc/wav/command_recorded.wav
 
 
 # Pass text from pocketsphinx to the intent recognizer.
