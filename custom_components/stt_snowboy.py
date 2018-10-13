@@ -49,7 +49,7 @@ CONF_TIMEOUT = 'timeout'
 DEFAULT_NAME = 'pln_snowboy'
 DEFAULT_SENSITIVITY = 0.5
 DEFAULT_AUDIO_GAIN = 1.0
-DEFAULT_TIMEOUT = 30.0
+DEFAULT_TIMEOUT = 10.0
 DEFAULT_MODELS = ['']
 DEFAULT_INTENT_TEXTS = ['']
 
@@ -83,18 +83,10 @@ EVENT_SPEECH_TO_TEXT = 'speech_to_text'
 OBJECT_SNOWBOY = '%s.decoder' % DOMAIN
 
 
-# ---------------------
-# Interruption handling
-# ---------------------
-
-interrupted = False
-terminated = False
-counter = 0
-
-
 # -----------------------------------------------------------------------------
 
 def setup(hass, config):
+    # Parametric Configuration
     name = config[DOMAIN].get(CONF_NAME, DEFAULT_NAME)
     models_json = config[DOMAIN].get(CONF_MODELS, DEFAULT_MODELS)
     texts_json = config[DOMAIN].get(CONF_INTENT_TEXTS, DEFAULT_INTENT_TEXTS)
@@ -102,6 +94,7 @@ def setup(hass, config):
     audio_gain = config[DOMAIN].get(CONF_AUDIO_GAIN, DEFAULT_AUDIO_GAIN)
     timeout = config[DOMAIN].get(CONF_TIMEOUT, DEFAULT_TIMEOUT)
     state_attrs = {'friendly_name': 'Snowboy STT', 'icon': 'mdi:microphone'}
+    terminated = False
 
     models = []
     texts = [t for t in texts_json]
@@ -112,29 +105,37 @@ def setup(hass, config):
     indexed_models = dict(zip(texts, models))
     _LOGGER.info("MODELS LOADED: %s" % str(indexed_models))
 
-    def interrupt_second():
-        global interrupted
-        global terminated
-        global counter
-        counter += 0.03
-        if int(counter) == timeout:
-            counter = 0
-            return True
-        return interrupted or terminated
-
-    def detected_text(text):
-        # Fire detected event
-        global terminated
-        hass.states.async_set(OBJECT_SNOWBOY, STATE_IDLE, state_attrs)
-        hass.bus.async_fire(EVENT_SPEECH_RECORDED, {'name': name})
-        hass.bus.async_fire(EVENT_SPEECH_TO_TEXT, {
-            'name': name,  # name of the component
-            'model': indexed_models[text],  # model used
-            'text': text  # text
-        })
-        terminated = True
-
+    # Main Functionality Registered in HomeAssistant
     def detect(call):
+
+        # Interruption Handling
+        interrupted = False
+        counter = 0
+
+        def interrupt_second():
+            nonlocal interrupted
+            nonlocal terminated
+            nonlocal counter
+            counter += 0.03
+            if int(counter) == timeout:
+                counter = 0
+                detected_text('unknown command')
+                return True
+            return interrupted or terminated
+
+        # Fire detected event to HomeAssistant
+        def detected_text(text):
+            nonlocal interrupted
+            hass.states.async_set(OBJECT_SNOWBOY, STATE_IDLE, state_attrs)
+            hass.bus.async_fire(EVENT_SPEECH_RECORDED, {'name': name})
+            hass.bus.async_fire(EVENT_SPEECH_TO_TEXT, {
+                'name': name,  # name of the component
+                'model': indexed_models.get(text, text),  # model used
+                'text': text  # text
+            })
+            _LOGGER.info("SERVICE SNOWBOY STT DETECTED: %s" % text)
+            interrupted = True
+
         from snowboy import snowboydecoder
         hass.states.async_set(OBJECT_SNOWBOY, STATE_LISTENING, state_attrs)
 
@@ -145,15 +146,17 @@ def setup(hass, config):
                        interrupt_check=interrupt_second,
                        sleep_time=0.03)
         detector.terminate()
+        _LOGGER.info("SERVICE SNOWBOY STT COMPLETED")
 
     # Make sure snowboy terminates property when home assistant stops
     def terminate(event):
-        global terminated
+        nonlocal terminated
         terminated = True
         hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, terminate)
 
+    # After defining values and functions, register services in Home Assistant
     hass.services.async_register(DOMAIN, SERVICE_DETECT, detect)
     hass.states.async_set(OBJECT_SNOWBOY, STATE_IDLE, state_attrs)
-    _LOGGER.info('Snowboy TTS Started')
+    _LOGGER.info('Snowboy STT Started')
     return True
 
