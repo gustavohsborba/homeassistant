@@ -29,7 +29,7 @@
          entity_id: media_player.speaker
       data:
         entity_id: media_player.speaker
-        media_content_id: /home/homeassistant/.homeassistant/data/etc/wav/command_recorded.wav
+        media_content_id: /opt/cefetmg/data/etc/wav/command_recorded.wav
         media_content_type: 'music'
 
 

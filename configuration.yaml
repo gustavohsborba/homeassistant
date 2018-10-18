@@ -105,9 +105,9 @@ input_boolean:
 
 # Speech To Text:
 stt_pocketsphinx:
-  acoustic_model: /home/homeassistant/.homeassistant/data/pocketsphinx/pt-br
-  language_model: /home/homeassistant/.homeassistant/data/examples.lm
-  dictionary: /home/homeassistant/.homeassistant/data/mixed.dict
+  acoustic_model: /opt/cefetmg/data/pocketsphinx/pt-br
+  language_model: /opt/cefetmg/data/examples.lm
+  dictionary: /opt/cefetmg/data/mixed.dict
   timeout_sec: 30.0
   vad_mode: 0
   audio_device: 1
@@ -115,17 +115,33 @@ stt_pocketsphinx:
   sample_rate: 44100
 
 hotword_snowboy:
-  model: /home/homeassistant/.homeassistant/data/snowboy/genio.pmdl
+  model: /opt/cefetmg/data/snowboy/genio.pmdl
   name: hotword_genio
 
 stt_snowboy:
-  models: [ "/home/homeassistant/.homeassistant/data/snowboy/liga-a-luz.pmdl", "/home/homeassistant/.homeassistant/data/snowboy/desligar.pmdl" ]
-  intent_texts: ["liga a luz","desligar a luz"]
+  intent_texts:
+    - 'ligar luz'
+    - 'desligar'
+  keywords:
+    - 'luz'
+    - 'ligar'
+    - 'desligar'
+  models:
+    - /opt/cefetmg/data/snowboy/luz.pmdl
+    - /opt/cefetmg/data/snowboy/ligar.pmdl
+    - /opt/cefetmg/data/snowboy/desligar.pmdl
+  sensitivity: 0.5
 
 intent_table:
-  prhase_list: ["liga a luz","desligar a luz"]
-  topic_list: ["luz/set","luz/set"]
-  payload_list: ["ON","OFF"]
+  payload_list:
+    - "ON"
+    - "OFF"
+  prhase_list:
+    - "ligar luz"
+    - "desligar luz"
+  topic_list:
+    - luz/set
+    - luz/set
 
 sensor: !include sensors.yaml
 group: !include groups.yaml

@@ -20,6 +20,7 @@ pip install snowboy==1.2.0b1
 """
 import os
 import logging
+import re
 
 import voluptuous as vol
 
@@ -40,23 +41,27 @@ CONF_SENSITIVITY = 'sensitivity'
 CONF_AUDIO_GAIN = 'audio_gain'
 CONF_MODELS = 'models'
 CONF_INTENT_TEXTS = 'intent_texts'
+CONF_KEYWORDS = 'keywords'
 CONF_TIMEOUT = 'timeout'
 
 # ----------------------
 # Configuration defaults
 # ----------------------
 
-DEFAULT_NAME = 'pln_snowboy'
+DEFAULT_NAME = 'stt_snowboy'
 DEFAULT_SENSITIVITY = 0.5
 DEFAULT_AUDIO_GAIN = 1.0
 DEFAULT_TIMEOUT = 10.0
+DEFAULT_KEYWORDS = ['']
 DEFAULT_MODELS = ['']
 DEFAULT_INTENT_TEXTS = ['']
+DEFAULT_UNKNOWN_COMMAND = 'unknown_command'
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
-        vol.Optional(CONF_MODELS, DEFAULT_MODELS): cv.ensure_list_csv,
-        vol.Optional(CONF_INTENT_TEXTS, DEFAULT_INTENT_TEXTS): cv.ensure_list_csv,
+        vol.Required(CONF_KEYWORDS, DEFAULT_KEYWORDS): cv.ensure_list_csv,
+        vol.Required(CONF_MODELS, DEFAULT_MODELS): cv.ensure_list_csv,
+        vol.Required(CONF_INTENT_TEXTS, DEFAULT_INTENT_TEXTS): cv.ensure_list_csv,
         vol.Optional(CONF_TIMEOUT, DEFAULT_TIMEOUT): float,
         vol.Optional(CONF_NAME, DEFAULT_NAME): cv.string,
         vol.Optional(CONF_SENSITIVITY, DEFAULT_SENSITIVITY): float,
@@ -89,7 +94,8 @@ def setup(hass, config):
     # Parametric Configuration
     name = config[DOMAIN].get(CONF_NAME, DEFAULT_NAME)
     models_json = config[DOMAIN].get(CONF_MODELS, DEFAULT_MODELS)
-    texts_json = config[DOMAIN].get(CONF_INTENT_TEXTS, DEFAULT_INTENT_TEXTS)
+    keywords_json = config[DOMAIN].get(CONF_KEYWORDS, DEFAULT_KEYWORDS)
+    intents_json = config[DOMAIN].get(CONF_INTENT_TEXTS, DEFAULT_INTENT_TEXTS)
     sensitivity = config[DOMAIN].get(CONF_SENSITIVITY, DEFAULT_SENSITIVITY)
     audio_gain = config[DOMAIN].get(CONF_AUDIO_GAIN, DEFAULT_AUDIO_GAIN)
     timeout = config[DOMAIN].get(CONF_TIMEOUT, DEFAULT_TIMEOUT)
@@ -97,16 +103,21 @@ def setup(hass, config):
     terminated = False
 
     models = []
-    texts = [t for t in texts_json]
-    assert len(models_json) == len(texts), 'Assign exactly one text for each model'
+    keywords = [k for k in keywords_json]
+    intents = [t for t in intents_json]
+    assert len(models_json) == len(keywords), 'Assign exactly one text for each model'
     for model in models_json:
         assert os.path.exists(model), 'Model does not exist'
         models.append(str(model))
-    indexed_models = dict(zip(texts, models))
+    indexed_models = dict(zip(keywords, models))
+    sensitivity = [str(sensitivity) for i in range(len(models))]
     _LOGGER.info("MODELS LOADED: %s" % str(indexed_models))
+    _LOGGER.info("SENSITIVITIES: %s" % str(sensitivity))
 
     # Main Functionality Registered in HomeAssistant
     def detect(call):
+
+        temp_text = ''
 
         # Interruption Handling
         interrupted = False
@@ -119,10 +130,23 @@ def setup(hass, config):
             counter += 0.03
             if int(counter) == timeout:
                 counter = 0
-                detected_text('unknown command')
+                detected_text(DEFAULT_UNKNOWN_COMMAND)
                 return True
             return interrupted or terminated
 
+        # Detects keyword
+        def detect_keyword(word):
+            nonlocal temp_text
+            temp_text = '%s %s' % (temp_text, word)
+            _LOGGER.info("SERVICE SNOWBOY STT TEMP_TEXT: %s" % temp_text)
+            _LOGGER.info("SERVICE SNOWBOY STT INTENTS: %s" % str(intents))
+            intents_detected = [t for t in intents if re.search(r'\b' + t + r'\b', temp_text)]
+            if intents_detected:
+                if len(intents_detected) == 1:
+                    detected_text(intents_detected[0])
+                else:
+                    detected_text(DEFAULT_UNKNOWN_COMMAND)
+        
         # Fire detected event to HomeAssistant
         def detected_text(text):
             nonlocal interrupted
@@ -130,7 +154,6 @@ def setup(hass, config):
             hass.bus.async_fire(EVENT_SPEECH_RECORDED, {'name': name})
             hass.bus.async_fire(EVENT_SPEECH_TO_TEXT, {
                 'name': name,  # name of the component
-                'model': indexed_models.get(text, text),  # model used
                 'text': text  # text
             })
             _LOGGER.info("SERVICE SNOWBOY STT DETECTED: %s" % text)
@@ -141,7 +164,7 @@ def setup(hass, config):
 
         detector = snowboydecoder.HotwordDetector(
             models, sensitivity=sensitivity, audio_gain=audio_gain)
-        callbacks = [lambda: detected_text(t) for t in texts]
+        callbacks = [lambda: detect_keyword(k) for k in keywords]
         detector.start(detected_callback=callbacks,
                        interrupt_check=interrupt_second,
                        sleep_time=0.03)
