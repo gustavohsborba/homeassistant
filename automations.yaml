@@ -1,5 +1,5 @@
 # Automatically listen for the hotword when Home Assistant starts.
-- alias: "start hotword"
+- alias: "start hotword Automation"
   trigger:
     platform: homeassistant
     event: start
@@ -8,7 +8,7 @@
 
 # Play a sound when the hotword is detected.
 # Start listening for a command.
-- alias: "Hotword Response"
+- alias: "Hotword Response Automation"
   trigger:
     platform: event
     event_type: hotword_detected
@@ -20,7 +20,7 @@
     - service: stt_snowboy.detect_commands
 
 # Play a sound when recording of a command has finished.
-- alias: "Command Recorded Event"
+- alias: "Command Recorded Event Automation"
   trigger:
     platform: event
     event_type: speech_recorded
@@ -35,7 +35,7 @@
 
 
 # Pass text from stt_snowboy to the intent recognizer.
-- alias: "Intent recognition"
+- alias: "Intent recognition Automation"
   trigger:
     platform: event
     event_type: speech_to_text
@@ -49,7 +49,7 @@
 
 # triggers a boolean when a command is successfully parsed
 - id: command_parsed_successfully
-  alias: Command parsed
+  alias: 'Command parsed Automation'
   trigger:
     platform: mqtt
     topic: "hass/successful_command"
@@ -62,14 +62,16 @@
 
 # Say a funny message and triggers a boolean for 5 sec.
 - id: command_success
-  alias: command success automation
+  alias: 'Command Success Automation'
   trigger:
   - entity_id: input_boolean.successful_command
     from: 'off'
     platform: state
     to: 'on'
   action:
-  - service: espeak_tts_success.tts_success
+  - service: speech.speak
+    data:
+      speech_rate: 160
   - delay: 00:00:05
   - data:
       entity_id: input_boolean.successful_command
@@ -81,7 +83,7 @@
 
 # Say that it didn't parsed command successfully.
 - id: unknown_command
-  alias: Command not parsed
+  alias: 'Unknown Command Automation'
   trigger:
     platform: mqtt
     topic: "hass/unknown_command"
@@ -89,19 +91,65 @@
     - service: speech.speak
       data:
         message: "Não Entendi."
+        speech_rate: 120
     - delay: 00:00:05
 
+
+# Increases speaker volume:
+- id: increase_volume
+  alias: 'Increase Volume Automation'
+  trigger:
+    platform: mqtt
+    topic: "hass/speaker/volume"
+    payload: 'increase'
+  action:
+    - service: media_player.volume_up
+      data:
+        entity_id: media_player.speaker
+    - service: speech.speak
+      data:
+        message:
+          - 'O volume'
+          - 'foi alterado'
+
+# Decreases speaker volume:
+- id: decrease_volume
+  alias: 'Decrease Volume Automation'
+  trigger:
+    platform: mqtt
+    topic: "hass/speaker/volume"
+    payload: 'decrease'
+  action:
+    - service: media_player.volume_down
+      data:
+        entity_id: media_player.speaker
+    - service: speech.speak
+      data:
+        message:
+          - 'O volume'
+          - 'foi alterado'
+
+
 # Informs about some item state
-#- id: ask_state_automation
-#  alias: ASK STATE Automation
-#  trigger:
-#    platform: mqtt
-#    topic: "hass/ask_state"
-#  action:
-#    - service: mqtt.publish
-#      data_template:
-#        - payload: "Test message from HA"
-#        - topic: {{ value_json.data }}
+- id: ask_state_automation
+  alias: 'RECEIVE STATE Automation'
+  trigger:
+    platform: mqtt
+    topic: "hass/ask_state"
+  action:
+    - service: speech.speak
+      data_template:
+        message: |-
+            {% if trigger.payload == "ON" %}
+              {{ "Está ligado" }}
+            {%- elif trigger.payload == "OFF" -%}
+              {{ "Está desligado" }}
+            {%- elif trigger.payload == "OPEN" -%}
+              {{ "Está aberta" }}
+            {%- else -%}
+              {{ "Está fechada" }}
+            {%- endif %}
+
 
 # MANDAR COMANDO MQTT PRO DISPOSITIVO
 # ELE RETORNA E VAI TER DE TER OUTRA AUTOMAÇÃO

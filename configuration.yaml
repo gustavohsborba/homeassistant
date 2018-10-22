@@ -43,7 +43,7 @@ updater:
   include_used_components: true
 
 # Discover some devices automatically
-discovery:
+# discovery:
 
 # Enables support for tracking state changes over time
 history:
@@ -52,30 +52,25 @@ history:
 logbook:
 
 # Cloud
-cloud:
+# cloud:
 
+#
 media_player:
   - platform: vlc
     name: speaker
     arguments: '--alsa-audio-device=hw:0,0'
 
 # Text to speech
-tts:
-  - platform: google
-    cache: true
-    cache_dir: /tmp/tts
-    time_memory: 300
-    language: 'pt-br'
-
-espeak_tts_success:
-
 speech:
-  speech_rate: 100
+  speech_rate: 160
+  voice: 'brazil'
 
 
 mqtt: 
   broker: localhost   #if broker installed on the same computer than Home-Assistant 
-  client_id: home-assistant 
+  client_id: home-assistant
+  discovery: true
+  discovery_prefix: hass
   keepalive: 60
   port: 1883          #by default 
   protocol: 3.1       #by default
@@ -84,18 +79,46 @@ mqtt:
 
 
 switch:
-  platform: mqtt
-  name: "MeuLED"
-  state_topic: "luz/status"
-  command_topic: "luz/set"
-  payload_on: "ON"   # A mensagem a ser enviada como payload para ligar;
-  payload_off: "OFF" # A mensagem a ser enviada como payload para desligar;
-  payload_available: "ONLINE"   
-  payload_not_available: "OFFLINE" 
-  optimistic: true   # Setado para true para manter o estado.
-  qos: 0
-  retain: true
-  value_template: '{{ value.x }}'
+  - platform: mqtt
+    name: "luz da sala"
+    state_topic: "hass/switch/sala/luz1/status"
+    command_topic: "hass/switch/sala/luz1/set"
+    payload_on: "ON"
+    payload_off: "OFF"
+    optimistic: true
+    qos: 0
+    retain: true
+    value_template: '{{ value.x }}'
+  - platform: mqtt
+    name: "luz do quarto"
+    state_topic: "hass/switch/quarto/luz1/status"
+    command_topic: "hass/switch/quarto/luz1/set"
+    payload_on: "ON"
+    payload_off: "OFF"
+    optimistic: true
+    qos: 0
+    retain: true
+    value_template: '{{ value.x }}'
+  - platform: mqtt
+    name: "luz da cozinha"
+    state_topic: "hass/switch/cozinha/luz1/status"
+    command_topic: "hass/switch/cozinha/luz1/set"
+    payload_on: "ON"
+    payload_off: "OFF"
+    optimistic: true
+    qos: 0
+    retain: true
+    value_template: '{{ value.x }}'
+  - platform: mqtt
+    name: "porta da sala"
+    state_topic: "hass/switch/sala/porta1/status"
+    command_topic: "hass/switch/sala/porta1/set"
+    payload_on: "ON"
+    payload_off: "OFF"
+    optimistic: true
+    qos: 0
+    retain: true
+    value_template: '{{ value.x }}'
 
 
 input_boolean:
@@ -103,6 +126,12 @@ input_boolean:
     name: 'Command Success'
     initial: off
     icon: mdi:playlist-check
+
+# Wakeword detection
+hotword_snowboy:
+  model: /opt/cefetmg/data/snowboy/genio.pmdl
+  name: hotword_genio
+
 
 # Speech To Text:
 stt_pocketsphinx:
@@ -120,69 +149,111 @@ stt_speech_recognition:
   language_model: /opt/cefetmg/data/examples.lm
   dictionary: /opt/cefetmg/data/mixed.dict
 
-
-
-hotword_snowboy:
-  model: /opt/cefetmg/data/snowboy/genio.pmdl
-  name: hotword_genio
-
 stt_snowboy:
   intent_texts:
-    - 'ligar luz'
-    - 'desligar luz'
-    - 'ascender luz'
+    - 'ligar luz sala'
+    - 'desligar luz sala'
+    - 'ascender luz sala'
+    - 'ligar luz quarto'
+    - 'desligar luz quarto'
+    - 'ascender luz quarto'
+    - 'ligar luz cozinha'
+    - 'desligar luz cozinha'
+    - 'ascender luz cozinha'
     - 'abra porta sala'
+    - 'luz sala ligada'
+    - 'luz quarto ligada'
+    - 'luz cozinha ligada'
+    - 'porta sala aberta'
+    - 'aumente volume'
+    - 'diminua volume'
   keywords:
     - 'ligar'
     - 'desligar'
     - 'luz'
     - 'acender'
-    #- 'cozinha'
+    - 'cozinha'
     - 'sala'
-    #- 'quarto'
+    - 'quarto'
     - 'abra'
     - 'porta'
-    #- 'ligada'
-    #- 'aberta'
-    #- 'fechada'
-    #- 'diminua'
-    #- 'aumente'
-    #- 'volume'
+    - 'ligada'
+    - 'aberta'
+    - 'fechada'
+    - 'diminua'
+    - 'aumente'
+    - 'volume'
   models:
     - /opt/cefetmg/data/snowboy/ligar.pmdl
     - /opt/cefetmg/data/snowboy/desligar.pmdl
     - /opt/cefetmg/data/snowboy/luz.pmdl
     - /opt/cefetmg/data/snowboy/acender.pmdl
-    #- /opt/cefetmg/data/snowboy/cozinha.pmdl
+    - /opt/cefetmg/data/snowboy/cozinha.pmdl
     - /opt/cefetmg/data/snowboy/sala.pmdl
-    #- /opt/cefetmg/data/snowboy/quarto.pmdl
+    - /opt/cefetmg/data/snowboy/quarto.pmdl
     - /opt/cefetmg/data/snowboy/abra.pmdl
     - /opt/cefetmg/data/snowboy/porta.pmdl
-    #- /opt/cefetmg/data/snowboy/ligada.pmdl
-    #- /opt/cefetmg/data/snowboy/aberta.pmdl
-    #- /opt/cefetmg/data/snowboy/fechada.pmdl
-    #- /opt/cefetmg/data/snowboy/diminua.pmdl
-    #- /opt/cefetmg/data/snowboy/aumente.pmdl
-    #- /opt/cefetmg/data/snowboy/volume.pmdl
+    - /opt/cefetmg/data/snowboy/ligada.pmdl
+    - /opt/cefetmg/data/snowboy/aberta.pmdl
+    - /opt/cefetmg/data/snowboy/fechada.pmdl
+    - /opt/cefetmg/data/snowboy/diminua.pmdl
+    - /opt/cefetmg/data/snowboy/aumente.pmdl
+    - /opt/cefetmg/data/snowboy/volume.pmdl
   sensitivity: 0.5
   audio_gain: 0.7
 
 intent_table:
   prhase_list:
-    - "ligar luz"
-    - "desligar luz"
-    - "ascender luz"
+    - 'ligar luz sala'
+    - 'desligar luz sala'
+    - 'ascender luz sala'
+    - 'ligar luz quarto'
+    - 'desligar luz quarto'
+    - 'ascender luz quarto'
+    - 'ligar luz cozinha'
+    - 'desligar luz cozinha'
+    - 'ascender luz cozinha'
     - 'abra porta sala'
+    - 'luz sala ligada'
+    - 'luz quarto ligada'
+    - 'luz cozinha ligada'
+    - 'porta sala aberta'
+    - 'aumente volume'
+    - 'diminua volume'
   payload_list:
     - "ON"
     - "OFF"
     - "ON"
     - "ON"
+    - "OFF"
+    - "ON"
+    - "ON"
+    - "OFF"
+    - "ON"
+    - "ON"
+    - "STATUS"
+    - "STATUS"
+    - "STATUS"
+    - "STATUS"
+    - "increase"
+    - "decrease"
   topic_list:
-    - luz/set
-    - luz/set
-    - luz/set
-    - porta/set
+    - hass/switch/sala/luz1/set
+    - hass/switch/sala/luz1/set
+    - hass/switch/sala/luz1/set
+    - hass/switch/quarto/luz1/set
+    - hass/switch/quarto/luz1/set
+    - hass/switch/quarto/luz1/set
+    - hass/switch/cozinha/luz1/set
+    - hass/switch/cozinha/luz1/set
+    - hass/switch/cozinha/luz1/set
+    - hass/switch/sala/porta1/set
+    - hass/switch/sala/luz1/set
+    - hass/switch/quarto/luz1/set
+    - hass/switch/cozinha/luz1/set
+    - hass/switch/sala/porta1/set
+    - hass/speaker/volume
+    - hass/speaker/volume
 
 sensor: !include sensors.yaml
 group: !include groups.yaml
