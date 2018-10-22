@@ -16,6 +16,7 @@
     - service: speech.speak
       data:
         message: "Diga"
+    #- service: stt_speech_recognition.listen
     - service: stt_snowboy.detect_commands
 
 # Play a sound when recording of a command has finished.
@@ -58,31 +59,6 @@
       entity_id: input_boolean.successful_command
 
 
-# Shows a notification when led state changes
-- id: led_state
-  alias: MQTT LED state
-  trigger:
-    platform: mqtt
-    topic: luz/status
-  action:
-  - service: persistent_notification.create
-    data:
-      message: 'Message Payload on luz/status: {{ states.sensor.luz.state }}'
-  - service: input_boolean.turn_on
-    data:
-      entity_id: input_boolean.successful_command
-
-
-- id: led_availability
-  alias: MQTT LED availability
-  trigger:
-    platform: mqtt
-    topic: luz/available
-  action:
-  - service: persistent_notification.create
-    data:
-      message: 'Message Payload on luz/available: {{ trigger.event }}'
-
 
 # Say a funny message and triggers a boolean for 5 sec.
 - id: command_success
@@ -115,11 +91,18 @@
         message: "Não Entendi."
     - delay: 00:00:05
 
-
-# Force stt_pocketsphinx to reload decoder after training
-#- alias: "Reload after training"
+# Informs about some item state
+#- id: ask_state_automation
+#  alias: ASK STATE Automation
 #  trigger:
-#    platform: event
-#    event_type: rhasspy_trained
+#    platform: mqtt
+#    topic: "hass/ask_state"
 #  action:
-#    - service: stt_pocketsphinx.reset
+#    - service: mqtt.publish
+#      data_template:
+#        - payload: "Test message from HA"
+#        - topic: {{ value_json.data }}
+
+# MANDAR COMANDO MQTT PRO DISPOSITIVO
+# ELE RETORNA E VAI TER DE TER OUTRA AUTOMAÇÃO
+# PARA FALAR O NOME DO DISPOSITIVO E O ESTADO.

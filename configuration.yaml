@@ -70,6 +70,7 @@ tts:
 espeak_tts_success:
 
 speech:
+  speech_rate: 100
 
 
 mqtt: 
@@ -114,6 +115,13 @@ stt_pocketsphinx:
   buffer_size: 2048
   sample_rate: 44100
 
+stt_speech_recognition:
+  acoustic_model: /opt/cefetmg/data/pocketsphinx/pt-br
+  language_model: /opt/cefetmg/data/examples.lm
+  dictionary: /opt/cefetmg/data/mixed.dict
+
+
+
 hotword_snowboy:
   model: /opt/cefetmg/data/snowboy/genio.pmdl
   name: hotword_genio
@@ -121,27 +129,60 @@ hotword_snowboy:
 stt_snowboy:
   intent_texts:
     - 'ligar luz'
-    - 'desligar'
+    - 'desligar luz'
+    - 'ascender luz'
+    - 'abra porta sala'
   keywords:
-    - 'luz'
     - 'ligar'
     - 'desligar'
+    - 'luz'
+    - 'acender'
+    #- 'cozinha'
+    - 'sala'
+    #- 'quarto'
+    - 'abra'
+    - 'porta'
+    #- 'ligada'
+    #- 'aberta'
+    #- 'fechada'
+    #- 'diminua'
+    #- 'aumente'
+    #- 'volume'
   models:
-    - /opt/cefetmg/data/snowboy/luz.pmdl
     - /opt/cefetmg/data/snowboy/ligar.pmdl
     - /opt/cefetmg/data/snowboy/desligar.pmdl
+    - /opt/cefetmg/data/snowboy/luz.pmdl
+    - /opt/cefetmg/data/snowboy/acender.pmdl
+    #- /opt/cefetmg/data/snowboy/cozinha.pmdl
+    - /opt/cefetmg/data/snowboy/sala.pmdl
+    #- /opt/cefetmg/data/snowboy/quarto.pmdl
+    - /opt/cefetmg/data/snowboy/abra.pmdl
+    - /opt/cefetmg/data/snowboy/porta.pmdl
+    #- /opt/cefetmg/data/snowboy/ligada.pmdl
+    #- /opt/cefetmg/data/snowboy/aberta.pmdl
+    #- /opt/cefetmg/data/snowboy/fechada.pmdl
+    #- /opt/cefetmg/data/snowboy/diminua.pmdl
+    #- /opt/cefetmg/data/snowboy/aumente.pmdl
+    #- /opt/cefetmg/data/snowboy/volume.pmdl
   sensitivity: 0.5
+  audio_gain: 0.7
 
 intent_table:
-  payload_list:
-    - "ON"
-    - "OFF"
   prhase_list:
     - "ligar luz"
     - "desligar luz"
+    - "ascender luz"
+    - 'abra porta sala'
+  payload_list:
+    - "ON"
+    - "OFF"
+    - "ON"
+    - "ON"
   topic_list:
     - luz/set
     - luz/set
+    - luz/set
+    - porta/set
 
 sensor: !include sensors.yaml
 group: !include groups.yaml

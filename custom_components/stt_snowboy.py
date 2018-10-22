@@ -32,7 +32,6 @@ _LOGGER = logging.getLogger(__name__)
 REQUIREMENTS = ['snowboy==1.2.0b1']
 DOMAIN = 'stt_snowboy'
 
-
 # ------
 # Config
 # ------
@@ -68,7 +67,6 @@ CONFIG_SCHEMA = vol.Schema({
         vol.Optional(CONF_AUDIO_GAIN, DEFAULT_AUDIO_GAIN): float
     })
 }, extra=vol.ALLOW_EXTRA)
-
 
 # --------
 # Services
@@ -110,9 +108,9 @@ def setup(hass, config):
         assert os.path.exists(model), 'Model does not exist'
         models.append(str(model))
     indexed_models = dict(zip(keywords, models))
-    sensitivity = [str(sensitivity) for i in range(len(models))]
+    sensitivities = [sensitivity]*len(models)
     _LOGGER.info("MODELS LOADED: %s" % str(indexed_models))
-    _LOGGER.info("SENSITIVITIES: %s" % str(sensitivity))
+    _LOGGER.info("SENSITIVITIES: %s" % str(sensitivities))
 
     # Main Functionality Registered in HomeAssistant
     def detect(call):
@@ -146,7 +144,10 @@ def setup(hass, config):
                     detected_text(intents_detected[0])
                 else:
                     detected_text(DEFAULT_UNKNOWN_COMMAND)
-        
+
+        def lambda_callback_keyword(text):
+            return lambda: detect_keyword(text)
+
         # Fire detected event to HomeAssistant
         def detected_text(text):
             nonlocal interrupted
@@ -162,12 +163,20 @@ def setup(hass, config):
         from snowboy import snowboydecoder
         hass.states.async_set(OBJECT_SNOWBOY, STATE_LISTENING, state_attrs)
 
-        detector = snowboydecoder.HotwordDetector(
-            models, sensitivity=sensitivity, audio_gain=audio_gain)
-        callbacks = [lambda: detect_keyword(k) for k in keywords]
+        _LOGGER.info("MODELS LOADED: %s" % str(indexed_models))
+        _LOGGER.info("MODELS: %s" % models)
+        _LOGGER.info("SENSITIVITIES: %s" % str(sensitivities))
+
+        detector = snowboydecoder.HotwordDetector(models,
+                                                  sensitivity=sensitivities,
+                                                  audio_gain=audio_gain)
+
+        _LOGGER.info("KEYWORDS: %s" % str(keywords))
+        callbacks = [lambda_callback_keyword(k) for k in keywords]
         detector.start(detected_callback=callbacks,
                        interrupt_check=interrupt_second,
                        sleep_time=0.03)
+
         detector.terminate()
         _LOGGER.info("SERVICE SNOWBOY STT COMPLETED")
 
@@ -182,4 +191,3 @@ def setup(hass, config):
     hass.states.async_set(OBJECT_SNOWBOY, STATE_IDLE, state_attrs)
     _LOGGER.info('Snowboy STT Started')
     return True
-
