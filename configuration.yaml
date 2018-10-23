@@ -145,9 +145,6 @@ stt_pocketsphinx:
   sample_rate: 44100
 
 stt_speech_recognition:
-  acoustic_model: /opt/cefetmg/data/pocketsphinx/pt-br
-  language_model: /opt/cefetmg/data/examples.lm
-  dictionary: /opt/cefetmg/data/mixed.dict
 
 stt_snowboy:
   intent_texts:
