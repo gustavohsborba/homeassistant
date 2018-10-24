@@ -1,0 +1,9 @@
+#JSGF V1.0;
+grammar gram;
+public <command> = <ligarluz> | <abrirporta> | <volume> | <consultaluz> | <consultaporta>;
+
+<ligarluz> = turn (on | off) light;
+<abrirporta> = open door;
+<volume> = turn volume (up | down);
+<consultaluz> = is the light (on | off);
+<consultaporta> = is the door (open | closed);

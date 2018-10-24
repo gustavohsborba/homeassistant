@@ -83,6 +83,7 @@ STATE_LISTENING = 'listening'
 # Fired when the hotword is detected
 EVENT_HOTWORD_DETECTED = 'hotword_detected'
 
+
 # -----------------------------------------------------------------------------
 
 @asyncio.coroutine

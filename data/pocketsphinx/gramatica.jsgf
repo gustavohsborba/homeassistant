@@ -1,0 +1,10 @@
+#JSGF V1.0 UTF-8 br;
+grammar gramatica;
+public <gramatica> = <comando> | <abertura> | <som> | <consulta> | <abertura>;
+
+<local> = sala | quarto | cozinha;
+<comando> = (ligar | desligar) luz <local>;
+<abertura> = abra porta <local>;
+<som> = (aumente | diminua) volume;
+<consulta> = luz <local> (ligada | desligada);
+<abertura> = porta está (aberta | fechada);

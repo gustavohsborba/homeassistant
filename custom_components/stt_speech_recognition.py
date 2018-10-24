@@ -5,6 +5,7 @@ sudo apt-get install git build-essential \
     python3 python3-dev python3-pip python3-venv
 pip3 install SpeechRecognition
 """
+import os
 import logging
 import voluptuous as vol
 import speech_recognition as sr
@@ -15,6 +16,13 @@ _LOGGER = logging.getLogger(__name__)
 REQUIREMENTS = ['SpeechRecognition', 'pocketsphinx', 'webrtcvad==2.0.10', 'PyAudio>=0.2.8']
 DOMAIN = 'stt_speech_recognition'
 
+# ------------------------
+# Configuration parameters
+# ------------------------
+
+CONF_LANGUAGE = 'pt-br'
+CONF_GRAMMAR = 'grammar_path'
+
 
 # ----------------------
 # Configuration defaults
@@ -22,6 +30,8 @@ DOMAIN = 'stt_speech_recognition'
 
 DEFAULT_NAME = 'stt_pocketsphinx'
 DEFAULT_UNKNOWN_COMMAND = 'unknown_command'
+DEFAULT_LANGUAGE = 'pt-br-picado'
+DEFAULT_GRAMMAR = '/opt/cefetmg/data/pocketsphinx/gramatica.jsgf'
 
 
 # --------
@@ -62,23 +72,36 @@ EVENT_SPEECH_TO_TEXT = 'speech_to_text'
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
-        vol.Optional(CONF_NAME, DEFAULT_NAME): cv.string
+        vol.Optional(CONF_NAME, DEFAULT_NAME): cv.string,
+        vol.Optional(CONF_LANGUAGE, DEFAULT_LANGUAGE): cv.string
     })
 }, extra=vol.ALLOW_EXTRA)
-
+state_attrs = {
+    'friendly_name': 'Speech to Text',
+    'icon': 'mdi:comment-text',
+    'text': ''
+}
 
 # -----------------------------------------------------------------------------
 # SETUP
 
+
 def setup(hass, config):
 
-    name = config[DOMAIN].get(CONF_NAME, DEFAULT_NAME)
-    state_attrs = {
-        'friendly_name': 'Speech to Text',
-        'icon': 'mdi:comment-text',
-        'text': ''
-    }
     hass.states.set(OBJECT_POCKETSPHINX, STATE_LOADING, state_attrs)
+    name = config[DOMAIN].get(CONF_NAME, DEFAULT_NAME)
+    language = config[DOMAIN].get(CONF_LANGUAGE, DEFAULT_LANGUAGE)
+    grammar = config[DOMAIN].get(CONF_GRAMMAR, DEFAULT_GRAMMAR)
+
+    language_dir = os.path.join(os.path.dirname(sr.__file__), "pocketsphinx-data", language)
+    acoustic_model_dir = os.path.join(language_dir, "acoustic-model")
+    language_model_file = os.path.join(language_dir, "language-model.lm.bin")
+    phoneme_dict_file = os.path.join(language_dir, "pronounciation-dictionary.dict")
+    assert os.path.exists(grammar), 'Grammar does not exist in path %s' % grammar
+    assert os.path.isdir(language_dir), "missing PocketSphinx language data directory: \"%s\"" % language_dir
+    assert os.path.isdir(acoustic_model_dir), "Acoustic model directory not found: \"%s\"" % acoustic_model_dir
+    assert os.path.exists(language_model_file), 'Language Model File does not exist in path %s' % language_model_file
+    assert os.path.exists(phoneme_dict_file), 'Pronunciation Dictionary does not exist in path %s' % phoneme_dict_file
 
     # -------------------------------------------------------------------------
     # DETECTED TEXT CALLBACK
@@ -86,10 +109,7 @@ def setup(hass, config):
     def detected_text(text):
         hass.states.set(OBJECT_POCKETSPHINX, STATE_IDLE, state_attrs)
         hass.bus.async_fire(EVENT_SPEECH_RECORDED, {'name': name})
-        hass.bus.async_fire(EVENT_SPEECH_TO_TEXT, {
-            'name': name,  # name of the component
-            'text': text  # text
-        })
+        hass.bus.async_fire(EVENT_SPEECH_TO_TEXT, {'name': name, 'text': text})
         _LOGGER.info("SERVICE SPEECH_RECOGNITION_STT DETECTED: %s" % text)
 
     # -------------------------------------------------------------------------
@@ -104,12 +124,10 @@ def setup(hass, config):
             try:
                 _LOGGER.warning("SPEECH_RECOGNITION: LISTENING TO MICROPHONE")
                 audio = r.listen(source)
+                hass.states.set(OBJECT_POCKETSPHINX, STATE_DECODING, state_attrs)
 
                 # recognize speech using Sphinx
-                # speech = r.recognize_sphinx(audio, language='pt-br')
-                # speech = r.recognize_sphinx(audio, grammar='/opt/cefetmg/data/gramatica.jsgf')
-                speech = r.recognize_sphinx(audio)
-                hass.states.set(OBJECT_POCKETSPHINX, STATE_DECODING, state_attrs)
+                speech = r.recognize_sphinx(audio, language=language, grammar=grammar)
                 _LOGGER.warning("SPEECH_RECOGNITION: SPEECH RECOGNIZED: %s" % speech)
                 detected_text(speech)
 
