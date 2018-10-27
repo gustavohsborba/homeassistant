@@ -29,7 +29,7 @@ from homeassistant.helpers import config_validation as cv
 
 _LOGGER = logging.getLogger(__name__)
 
-REQUIREMENTS = ['snowboy==1.2.0b1']
+REQUIREMENTS = ['snowboy']
 DOMAIN = 'stt_snowboy'
 
 # ------
