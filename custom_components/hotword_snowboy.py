@@ -15,7 +15,7 @@ sudo apt-get install liblapack-dev liblapack3 \
     libportaudio2 libasound-dev libportaudio2 \
     libportaudiocpp0 ffmpeg libav-tools \
     libjack0 libjack-dev portaudio19-dev
-pip install snowboy==1.2.0b1
+pip install snowboy
 """
 import logging
 import os
@@ -29,7 +29,7 @@ from homeassistant.helpers import intent, config_validation as cv
 
 _LOGGER = logging.getLogger(__name__)
 
-REQUIREMENTS = ['snowboy==1.2.0b1']
+REQUIREMENTS = ['snowboy']
 
 DOMAIN = 'hotword_snowboy'
 

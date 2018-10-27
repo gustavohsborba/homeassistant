@@ -4,7 +4,7 @@
 # INSTALA AS DEPENDÊNCIAS
 # -----------------------
 
-apt-get install openssh
+apt-get install openssh-server
 apt-get install python3 python3-venv python3-pip
 apt-get install mosquitto mosquitto-auth-plugin
 apt-get install vlc-nox espeak
