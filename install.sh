@@ -8,6 +8,7 @@ apt-get install openssh-server
 apt-get install python3 python3-venv python3-pip
 apt-get install mosquitto mosquitto-auth-plugin
 apt-get install vlc-nox espeak
+apt-get install p7zip-full
 
 sudo apt-get install build-essential \
     python3-dev python3-pip python3-venv \
@@ -49,8 +50,11 @@ exec sudo -u homeassistant /bin/sh - << EOF
     # BAIXA DO GIT E MOVE AS COISAS PRA PASTA DE CONFIGURAÇÃO
     cd /home/homeassistant
     git clone https://github.com/gustavohsborba/homeassistant.git
-    mv homeassistant/* .homeassistant/
-    rm -r homeassistant
+    mv homeassistant .homeassistant
+    cd .homeassistant/data/pocketsphinx/pt-br-picado/
+    7za x language-model.lm.7z
+    cd ~/.homeassistant
+    cp ~/.homeassistant/data /opt/cefetmg
 EOF
 
 # FIM, COMO USUÁRIO HOMEASSISTANT
