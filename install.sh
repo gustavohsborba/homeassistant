@@ -4,29 +4,39 @@
 # INSTALA AS DEPENDÊNCIAS
 # -----------------------
 
+# utilitários
+apt-get install python3 python3-venv python3-pip build-essential python3-dev
 apt-get install openssh-server
-apt-get install python3 python3-venv python3-pip
 apt-get install mosquitto mosquitto-auth-plugin
 apt-get install vlc-nox espeak
 apt-get install p7zip-full
 
-sudo apt-get install build-essential \
-    python3-dev python3-pip python3-venv \
-    libasound2-dev libpulse-dev swig \
+# Para as bibliotecas de voz: snowboy
+apt-get install python-dev swig
+apt-get install portaudio19-dev
+apt-get install libasound2-dev libpulse-dev swig \
     portaudio19-dev libttspico-utils \
     libtcl8.6 libatlas-dev libatlas-base-dev
-sudo apt-get install liblapack-dev liblapack3 \
-    libopenblas-base libopenblas-dev libatlas-base-dev \
-    libportaudio2 libasound-dev libportaudio2 \
+
+# Para as bibliotecas de voz: vlc, pyttsx
+apt-get install vlc pulseaudio
+apt-get install libportaudio2 \
+    libasound-dev libportaudio2 \
     libportaudiocpp0 ffmpeg libav-tools \
-    libjack0 libjack-dev portaudio19-dev
+    libjack0 libjack-dev libjack-jackd2-dev
+
+# Para as bibliotecas de voz: PocketSphinx e SpeechRecognition
+apt-get install liblapack-dev liblapack3 \
+    libopenblas-base libopenblas-dev libatlas-base-dev
+
+
 
 
 # -----------------------------------------------------
 # CRIA O USUÁRIO HOMEASSISTANT E AS PASTAS DA APLICAÇÃO
 # -----------------------------------------------------
 
-useradd -rm homeassistant -G gpio
+useradd -rm homeassistant -G gpio,www-data,audio,ssh,voice,video
 
 mkdir /opt/cefetmg
 chown homeassistant:homeassistant /opt/cefetmg
@@ -42,19 +52,22 @@ exec sudo -u homeassistant /bin/sh - << EOF
     cd /opt/cefetmg/venv
     python3 -m venv .
     source bin/activate
-    python3 -m pip install wheel
+    pip3 install wheel
     pip3 install homeassistant
-    pip3 install pyaudio webrtcvad pyttsx3
+    pip3 install colorlog
+    pip3 install pyaudio webrtcvad pyttsx3 SpeechRecognition
     python3 -m pip install https://github.com/Kitt-AI/snowboy/archive/v1.3.0.tar.gz
 
     # BAIXA DO GIT E MOVE AS COISAS PRA PASTA DE CONFIGURAÇÃO
     cd /home/homeassistant
-    git clone https://github.com/gustavohsborba/homeassistant.git
-    mv homeassistant .homeassistant
+    mkdir .homeassistant
+    cd .homeassistant
+    git clone https://github.com/gustavohsborba/homeassistant.git .
     cd .homeassistant/data/pocketsphinx/pt-br-picado/
     7za x language-model.lm.7z
-    cd ~/.homeassistant
-    cp ~/.homeassistant/data /opt/cefetmg
+    cd ~
+    cp -R ~/.homeassistant/data /opt/cefetmg
+    cp -R /opt/cefetmg/data/pocketsphinx/* /opt/cefetmg/venv/lib/python3.5/site-packages/speech_recognition/pocketsphinx-data/
 EOF
 
 # FIM, COMO USUÁRIO HOMEASSISTANT

@@ -17,8 +17,8 @@
       data:
         message: "Diga"
         speech_rate: 100
-    - service: stt_speech_recognition.listen
-    #- service: stt_snowboy.detect_commands
+    #- service: stt_speech_recognition.listen
+    - service: stt_snowboy.detect_commands
 
 # Play a sound when recording of a command has finished.
 - alias: "Command Recorded Event Automation"
