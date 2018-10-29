@@ -12,3 +12,4 @@ home-assistant.log
 home-assistant_v2.db
 .HA_VERSION
 .uuid
+data/pocketsphinx/pt-br-picado/language-model.lm.bin
