@@ -104,5 +104,6 @@ def setup(hass, config):
     # After defining values and functions, register services in Home Assistant
     hass.services.async_register(DOMAIN, SERVICE_PARSE, parse)
     _LOGGER.info('INTENT_TABLE STARTED')
+    client.publish(notfound_topic, "INTENT TABLE LOADED")
     return True
 

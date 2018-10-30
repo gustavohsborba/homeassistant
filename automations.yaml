@@ -85,9 +85,11 @@
 # Say that it didn't parsed command successfully.
 - id: unknown_command
   alias: 'Unknown Command Automation'
+  initial_state: true
   trigger:
     platform: mqtt
     topic: "hass/unknown_command"
+    payload: "unknown_command"
   action:
     - service: speech.speak
       data:
