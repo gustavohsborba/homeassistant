@@ -8,7 +8,7 @@
 apt-get install python3 python3-venv python3-pip build-essential python3-dev
 apt-get install openssh-server
 apt-get install mosquitto mosquitto-auth-plugin
-apt-get install vlc-nox espeak
+apt-get install vlc vlc-nox espeak
 apt-get install p7zip-full
 
 # Para as bibliotecas de voz: snowboy
