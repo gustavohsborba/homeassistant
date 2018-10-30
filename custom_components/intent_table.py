@@ -94,6 +94,7 @@ def setup(hass, config):
             client.publish(success_topic, spoken_phrase)
         else:
             _LOGGER.warning("INTENT NOT FOUND: %s" % spoken_phrase)
+            _LOGGER.warning("PUBLISHING : %s ON TOPIC %s" % (spoken_phrase, notfound_topic))
             client.publish(notfound_topic, spoken_phrase)
 
     # Make sure module terminates property when home assistant stops
