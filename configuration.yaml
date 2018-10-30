@@ -217,7 +217,6 @@ intent_table:
     - 'porta sala aberta'
     - 'aumente volume'
     - 'diminua volume'
-    - 'unknown_command'
   payload_list:
     - "ON"
     - "OFF"
@@ -235,7 +234,6 @@ intent_table:
     - "STATUS"
     - "increase"
     - "decrease"
-    - "unknown_command"
   topic_list:
     - hass/switch/sala/luz1/set
     - hass/switch/sala/luz1/set
@@ -253,7 +251,6 @@ intent_table:
     - hass/switch/sala/porta1/set
     - hass/speaker/volume
     - hass/speaker/volume
-    - hass/unknown_command
 
 sensor: !include sensors.yaml
 group: !include groups.yaml

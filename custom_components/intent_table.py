@@ -44,6 +44,7 @@ DEFAULT_MQTT_BROKER = 'localhost'
 DEFAULT_MQTT_PORT = 1883
 DEFAULT_MQTT_COMMAND_NOT_FOUND_TOPIC = 'hass/unknown_command'
 DEFAULT_MQTT_SUCCESS_TOPIC = 'hass/successful_command'
+DEFAULT_UNKNOWN_COMMAND = 'unknown_command'
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
@@ -62,7 +63,7 @@ CONFIG_SCHEMA = vol.Schema({
 def setup(hass, config):
     phrases_json = config[DOMAIN].get(CONFIG_PHRASE_LIST, DEFAULT_PHRASE_LIST)
     topics_json = config[DOMAIN].get(CONFIG_TOPIC_LIST, DEFAULT_TOPIC_LIST)
-    payloads_json = config[DOMAIN].get(CONFIG_TOPIC_LIST, DEFAULT_TOPIC_LIST)
+    payloads_json = config[DOMAIN].get(CONFIG_PAYLOAD_LIST, DEFAULT_PAYLOAD_LIST)
     mqtt_broker = config[DOMAIN].get(CONFIG_MQTT_BROKER, DEFAULT_MQTT_BROKER)
     mqtt_port = config[DOMAIN].get(CONFIG_MQTT_PORT, DEFAULT_MQTT_PORT)
     notfound_topic = config[DOMAIN].get(CONFIG_MQTT_COMMAND_NOT_FOUND_TOPIC, DEFAULT_MQTT_COMMAND_NOT_FOUND_TOPIC)
@@ -82,7 +83,7 @@ def setup(hass, config):
     _LOGGER.info("INTENT_TABLE: MQTT CLIENT CONNECTED ON %s:%d" % (mqtt_broker, mqtt_port))
 
     def parse(call):
-        spoken_phrase = call.data.get(ATTR_TEXT, 'unknown')
+        spoken_phrase = call.data.get(ATTR_TEXT, DEFAULT_UNKNOWN_COMMAND)
         _LOGGER.info('INTENT_TABLE RECEIVED DATA: %s' % spoken_phrase)
         if spoken_phrase in indexed_topics.keys() and spoken_phrase in indexed_payloads:
             topic = indexed_topics.get(spoken_phrase)
