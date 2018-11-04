@@ -50,6 +50,7 @@
 
 # triggers a boolean when a command is successfully parsed
 - id: command_parsed_successfully
+  initial_state: true
   alias: 'Command parsed Automation'
   trigger:
     platform: mqtt
@@ -102,6 +103,7 @@
 # Increases speaker volume:
 - id: increase_volume
   alias: 'Increase Volume Automation'
+  initial_state: true
   trigger:
     platform: mqtt
     topic: "hass/speaker/volume"
@@ -119,6 +121,7 @@
 # Decreases speaker volume:
 - id: decrease_volume
   alias: 'Decrease Volume Automation'
+  initial_state: true
   trigger:
     platform: mqtt
     topic: "hass/speaker/volume"
@@ -137,6 +140,7 @@
 # Informs about some item state
 - id: ask_state_automation
   alias: 'RECEIVE STATE Automation'
+  initial_state: true
   trigger:
     platform: mqtt
     topic: "hass/ask_state"
