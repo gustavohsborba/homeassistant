@@ -1,5 +1,6 @@
 # Automatically listen for the hotword when Home Assistant starts.
 - alias: "start hotword Automation"
+  initial_state: true
   trigger:
     platform: homeassistant
     event: start
@@ -9,6 +10,7 @@
 # Play a sound when the hotword is detected.
 # Start listening for a command.
 - alias: "Hotword Response Automation"
+  initial_state: true
   trigger:
     platform: event
     event_type: hotword_detected
@@ -22,6 +24,7 @@
 
 # Play a sound when recording of a command has finished.
 - alias: "Command Recorded Event Automation"
+  initial_state: true
   trigger:
     platform: event
     event_type: speech_recorded
@@ -37,6 +40,7 @@
 
 # Pass text from stt_snowboy to the intent recognizer.
 - alias: "Intent recognition Automation"
+  initial_state: true
   trigger:
     platform: event
     event_type: speech_to_text
@@ -55,7 +59,7 @@
   trigger:
     platform: mqtt
     topic: "hass/successful_command"
-    payload: "success"
+    payload: "succcess"
   action:
   - service: input_boolean.turn_on
     data:
@@ -66,6 +70,7 @@
 # Say a funny message and triggers a boolean for 5 sec.
 - id: command_success
   alias: 'Command Success Automation'
+  initial_state: true
   trigger:
   - entity_id: input_boolean.successful_command
     from: 'off'
