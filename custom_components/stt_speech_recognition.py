@@ -137,6 +137,7 @@ def setup(hass, config):
             except sr.RequestError as e:
                 _LOGGER.warning("SPEECH_RECOGNITION: Sphinx error; {0}".format(e))
                 detected_text(DEFAULT_UNKNOWN_COMMAND)
+            _LOGGER.info("SERVICE SPEECH_RECOGNITION COMPLETED")
 
     # -------------------------------------------------------------------------
 

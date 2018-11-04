@@ -45,6 +45,7 @@ DEFAULT_MQTT_PORT = 1883
 DEFAULT_MQTT_COMMAND_NOT_FOUND_TOPIC = 'hass/unknown_command'
 DEFAULT_MQTT_SUCCESS_TOPIC = 'hass/successful_command'
 DEFAULT_UNKNOWN_COMMAND = 'unknown_command'
+DEFAULT_SUCCESS_COMMAND = 'succcess'
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
@@ -91,7 +92,7 @@ def setup(hass, config):
             _LOGGER.info("INTENT FOUND: %s" % spoken_phrase)
             client.publish(topic, payload)
             _LOGGER.info("PUBLISHED %s ON TOPIC %s" % (payload, topic))
-            client.publish(success_topic, spoken_phrase)
+            client.publish(success_topic, DEFAULT_SUCCESS_COMMAND)
         else:
             _LOGGER.warning("INTENT NOT FOUND: %s" % spoken_phrase)
             _LOGGER.warning("PUBLISHING : %s ON TOPIC %s" % (spoken_phrase, notfound_topic))

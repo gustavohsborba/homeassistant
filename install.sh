@@ -30,8 +30,6 @@ apt-get install liblapack-dev liblapack3 \
     libopenblas-base libopenblas-dev libatlas-base-dev
 
 
-
-
 # -----------------------------------------------------
 # CRIA O USUÁRIO HOMEASSISTANT E AS PASTAS DA APLICAÇÃO
 # -----------------------------------------------------

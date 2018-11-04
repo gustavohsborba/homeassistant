@@ -54,6 +54,7 @@
   trigger:
     platform: mqtt
     topic: "hass/successful_command"
+    payload: "success"
   action:
   - service: input_boolean.turn_on
     data:
