@@ -79,11 +79,10 @@ def setup(hass, config):
     indexed_payloads = dict(zip(phrases, payloads))
     _LOGGER.info("INTENTS LOADED: %s" % str(indexed_topics))
 
-    client = mqtt.Client()
-    client.connect(mqtt_broker, mqtt_port, 60)
-    _LOGGER.info("INTENT_TABLE: MQTT CLIENT CONNECTED ON %s:%d" % (mqtt_broker, mqtt_port))
-
     def parse(call):
+        client = mqtt.Client()
+        client.connect(mqtt_broker, mqtt_port, 60)
+        _LOGGER.info("INTENT_TABLE: MQTT CLIENT CONNECTED ON %s:%d" % (mqtt_broker, mqtt_port))
         spoken_phrase = call.data.get(ATTR_TEXT, DEFAULT_UNKNOWN_COMMAND)
         _LOGGER.info('INTENT_TABLE RECEIVED DATA: %s' % spoken_phrase)
         if spoken_phrase in indexed_topics.keys() and spoken_phrase in indexed_payloads:
@@ -97,6 +96,7 @@ def setup(hass, config):
             _LOGGER.warning("INTENT NOT FOUND: %s" % spoken_phrase)
             _LOGGER.warning("PUBLISHING : %s ON TOPIC %s" % (spoken_phrase, notfound_topic))
             client.publish(notfound_topic, spoken_phrase)
+        client.disconnect()
 
     # Make sure module terminates property when home assistant stops
     def terminate(event):
@@ -105,6 +105,5 @@ def setup(hass, config):
     # After defining values and functions, register services in Home Assistant
     hass.services.async_register(DOMAIN, SERVICE_PARSE, parse)
     _LOGGER.info('INTENT_TABLE STARTED')
-    client.publish(notfound_topic, "INTENT TABLE LOADED")
     return True
 

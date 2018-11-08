@@ -134,16 +134,6 @@ hotword_snowboy:
 
 
 # Speech To Text:
-stt_pocketsphinx:
-  acoustic_model: /opt/cefetmg/data/pocketsphinx/pt-br
-  language_model: /opt/cefetmg/data/examples.lm
-  dictionary: /opt/cefetmg/data/mixed.dict
-  timeout_sec: 30.0
-  vad_mode: 0
-  audio_device: 1
-  buffer_size: 2048
-  sample_rate: 44100
-
 stt_speech_recognition:
 
 stt_snowboy:

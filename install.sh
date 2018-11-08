@@ -45,7 +45,7 @@ chmod 755 -R /opt/cefetmg
 # CRIA AMBIENTE VIRTUAL COMO USUÁRIO HOMEASSISTANT E INSTALA TUDO
 # ---------------------------------------------------------------
 
-exec sudo -u homeassistant /bin/sh - << EOF
+exec sudo -u homeassistant /bin/bash - << EOT
     mkdir /opt/cefetmg/venv
     cd /opt/cefetmg/venv
     python3 -m venv .
@@ -66,7 +66,7 @@ exec sudo -u homeassistant /bin/sh - << EOF
     cd ~
     cp -R ~/.homeassistant/data /opt/cefetmg
     cp -R /opt/cefetmg/data/pocketsphinx/* /opt/cefetmg/venv/lib/python3.5/site-packages/speech_recognition/pocketsphinx-data/
-EOF
+EOT
 
 # FIM, COMO USUÁRIO HOMEASSISTANT
 

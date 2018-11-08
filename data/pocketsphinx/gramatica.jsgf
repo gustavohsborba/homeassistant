@@ -6,5 +6,5 @@ public <gramatica> = <comando> | <abertura> | <som> | <consulta> | <abertura>;
 <comando> = (ligar | desligar) luz <local>;
 <abertura> = abra porta <local>;
 <som> = (aumente | diminua) volume;
-<consulta> = luz <local> (ligada | desligada);
+<consulta> = luz <local> está (ligada | desligada);
 <abertura> = porta está (aberta | fechada);
