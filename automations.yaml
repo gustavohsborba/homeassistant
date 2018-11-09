@@ -5,7 +5,10 @@
     platform: homeassistant
     event: start
   action:
-    service: hotword_snowboy.listen
+    - service: automation.turn_on
+      data:
+        entity_id: automation.command_success_automation
+    - service: hotword_snowboy.listen
 
 # Play a sound when the hotword is detected.
 # Start listening for a command.
@@ -59,7 +62,7 @@
   trigger:
     platform: mqtt
     topic: "hass/successful_command"
-    payload: "succcess"
+    payload: "success"
   action:
   - service: input_boolean.turn_on
     data:
@@ -69,8 +72,8 @@
 
 # Say a funny message and triggers a boolean for 5 sec.
 - id: command_success
-  alias: 'Command Success Automation'
   initial_state: true
+  alias: 'Command Success Automation'
   trigger:
   - entity_id: input_boolean.successful_command
     from: 'off'
@@ -91,8 +94,8 @@
 
 # Say that it didn't parsed command successfully.
 - id: unknown_command
-  alias: 'Unknown Command Automation'
   initial_state: true
+  alias: 'Unknown Command Automation'
   trigger:
     platform: mqtt
     topic: "hass/unknown_command"
@@ -107,8 +110,8 @@
 
 # Increases speaker volume:
 - id: increase_volume
-  alias: 'Increase Volume Automation'
   initial_state: true
+  alias: 'Increase Volume Automation'
   trigger:
     platform: mqtt
     topic: "hass/speaker/volume"
@@ -125,8 +128,8 @@
 
 # Decreases speaker volume:
 - id: decrease_volume
-  alias: 'Decrease Volume Automation'
   initial_state: true
+  alias: 'Decrease Volume Automation'
   trigger:
     platform: mqtt
     topic: "hass/speaker/volume"
@@ -144,8 +147,8 @@
 
 # Informs about some item state
 - id: ask_state_automation
-  alias: 'RECEIVE STATE Automation'
   initial_state: true
+  alias: 'RECEIVE STATE Automation'
   trigger:
     platform: mqtt
     topic: "hass/ask_state"
@@ -162,3 +165,23 @@
             {%- else -%}
               {{ "Está fechada" }}
             {%- endif %}
+
+# Says something when receives message in MQTT channel
+- id: say_something
+  initial_state: true
+  alias: 'Say Something Automation'
+  trigger:
+    platform: mqtt
+    topic: "hass/say"
+  action:
+    - service: speech.speak
+      data_template:
+        message: >
+          {{ trigger.event.data.message }}
+        speech_rate: |-
+          {% if trigger.event.data.speech_rate %}
+            {{trigger.event.data.speech_rate}}
+          {% else %}
+            {{ 120 }}
+          {% endif %}
+

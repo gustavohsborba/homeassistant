@@ -22,6 +22,7 @@ DOMAIN = 'stt_speech_recognition'
 
 CONF_LANGUAGE = 'pt-br'
 CONF_GRAMMAR = 'grammar_path'
+CONF_TIMEOUT = 'timeout'
 
 
 # ----------------------
@@ -32,7 +33,7 @@ DEFAULT_NAME = 'stt_pocketsphinx'
 DEFAULT_UNKNOWN_COMMAND = 'unknown_command'
 DEFAULT_LANGUAGE = 'pt-br-picado'
 DEFAULT_GRAMMAR = '/opt/cefetmg/data/pocketsphinx/gramatica.jsgf'
-
+DEFAULT_TIMEOUT = 4.0
 
 # --------
 # Services
@@ -73,6 +74,7 @@ EVENT_SPEECH_TO_TEXT = 'speech_to_text'
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
         vol.Optional(CONF_NAME, DEFAULT_NAME): cv.string,
+        vol.Optional(CONF_TIMEOUT, DEFAULT_TIMEOUT): float,
         vol.Optional(CONF_LANGUAGE, DEFAULT_LANGUAGE): cv.string
     })
 }, extra=vol.ALLOW_EXTRA)
@@ -90,6 +92,7 @@ def setup(hass, config):
 
     hass.states.set(OBJECT_POCKETSPHINX, STATE_LOADING, state_attrs)
     name = config[DOMAIN].get(CONF_NAME, DEFAULT_NAME)
+    timeout = config[DOMAIN].get(CONF_TIMEOUT, DEFAULT_TIMEOUT)
     language = config[DOMAIN].get(CONF_LANGUAGE, DEFAULT_LANGUAGE)
     grammar = config[DOMAIN].get(CONF_GRAMMAR, DEFAULT_GRAMMAR)
 
@@ -123,7 +126,7 @@ def setup(hass, config):
             r.adjust_for_ambient_noise(source)
             try:
                 _LOGGER.warning("SPEECH_RECOGNITION: LISTENING TO MICROPHONE")
-                audio = r.listen(source)
+                audio = r.listen(source, timeout=timeout)
                 hass.states.set(OBJECT_POCKETSPHINX, STATE_DECODING, state_attrs)
 
                 # recognize speech using Sphinx

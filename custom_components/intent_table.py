@@ -4,6 +4,7 @@ pip install paho-mqtt
 """
 import logging
 import voluptuous as vol
+import asyncio
 from homeassistant.const import EVENT_HOMEASSISTANT_STOP
 from homeassistant.helpers import config_validation as cv
 import paho.mqtt.client as mqtt
@@ -45,7 +46,7 @@ DEFAULT_MQTT_PORT = 1883
 DEFAULT_MQTT_COMMAND_NOT_FOUND_TOPIC = 'hass/unknown_command'
 DEFAULT_MQTT_SUCCESS_TOPIC = 'hass/successful_command'
 DEFAULT_UNKNOWN_COMMAND = 'unknown_command'
-DEFAULT_SUCCESS_COMMAND = 'succcess'
+DEFAULT_SUCCESS_COMMAND = 'success'
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
@@ -61,7 +62,8 @@ CONFIG_SCHEMA = vol.Schema({
 
 # -----------------------------------------------------------------------------
 
-def setup(hass, config):
+@asyncio.coroutine
+def async_setup(hass, config):
     phrases_json = config[DOMAIN].get(CONFIG_PHRASE_LIST, DEFAULT_PHRASE_LIST)
     topics_json = config[DOMAIN].get(CONFIG_TOPIC_LIST, DEFAULT_TOPIC_LIST)
     payloads_json = config[DOMAIN].get(CONFIG_PAYLOAD_LIST, DEFAULT_PAYLOAD_LIST)
@@ -79,9 +81,11 @@ def setup(hass, config):
     indexed_payloads = dict(zip(phrases, payloads))
     _LOGGER.info("INTENTS LOADED: %s" % str(indexed_topics))
 
-    def parse(call):
+    @asyncio.coroutine
+    async def parse(call):
         client = mqtt.Client()
         client.connect(mqtt_broker, mqtt_port, 60)
+        client.loop_start()
         _LOGGER.info("INTENT_TABLE: MQTT CLIENT CONNECTED ON %s:%d" % (mqtt_broker, mqtt_port))
         spoken_phrase = call.data.get(ATTR_TEXT, DEFAULT_UNKNOWN_COMMAND)
         _LOGGER.info('INTENT_TABLE RECEIVED DATA: %s' % spoken_phrase)
@@ -90,8 +94,9 @@ def setup(hass, config):
             payload = indexed_payloads.get(spoken_phrase)
             _LOGGER.info("INTENT FOUND: %s" % spoken_phrase)
             client.publish(topic, payload)
-            _LOGGER.info("PUBLISHED %s ON TOPIC %s" % (payload, topic))
             client.publish(success_topic, DEFAULT_SUCCESS_COMMAND)
+            _LOGGER.info("PUBLISHED %s ON TOPIC %s" % (DEFAULT_SUCCESS_COMMAND, success_topic))
+            _LOGGER.info("PUBLISHED %s ON TOPIC %s" % (payload, topic))
         else:
             _LOGGER.warning("INTENT NOT FOUND: %s" % spoken_phrase)
             _LOGGER.warning("PUBLISHING : %s ON TOPIC %s" % (spoken_phrase, notfound_topic))
@@ -99,11 +104,16 @@ def setup(hass, config):
         client.disconnect()
 
     # Make sure module terminates property when home assistant stops
+    @asyncio.coroutine
     def terminate(event):
-        hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, terminate)
+        client = mqtt.Client()
+        client.connect(mqtt_broker, mqtt_port, 60)
+        _LOGGER.info('INTENT_TABLE EXITING')
+        client.publish(success_topic, DEFAULT_SUCCESS_COMMAND)
 
     # After defining values and functions, register services in Home Assistant
     hass.services.async_register(DOMAIN, SERVICE_PARSE, parse)
+    hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, terminate)
     _LOGGER.info('INTENT_TABLE STARTED')
     return True
 

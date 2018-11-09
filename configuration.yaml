@@ -135,6 +135,7 @@ hotword_snowboy:
 
 # Speech To Text:
 stt_speech_recognition:
+  timeout: 4.5
 
 stt_snowboy:
   intent_texts:

@@ -5,28 +5,28 @@
 # -----------------------
 
 # utilitários
-apt-get install python3 python3-venv python3-pip build-essential python3-dev
-apt-get install openssh-server
-apt-get install mosquitto mosquitto-auth-plugin
-apt-get install vlc vlc-nox espeak
-apt-get install p7zip-full
+apt-get install -y python3 python3-venv python3-pip build-essential python3-dev
+apt-get install -y openssh-server
+apt-get install -y mosquitto mosquitto-auth-plugin
+apt-get install -y vlc vlc-nox espeak
+apt-get install -y p7zip-full
 
 # Para as bibliotecas de voz: snowboy
-apt-get install python-dev swig
-apt-get install portaudio19-dev
-apt-get install libasound2-dev libpulse-dev swig \
+apt-get install -y python-dev swig
+apt-get install -y portaudio19-dev
+apt-get install -y libasound2-dev libpulse-dev swig \
     portaudio19-dev libttspico-utils \
     libtcl8.6 libatlas-dev libatlas-base-dev
 
 # Para as bibliotecas de voz: vlc, pyttsx
-apt-get install vlc pulseaudio
-apt-get install libportaudio2 \
+apt-get install -y vlc pulseaudio
+apt-get install -y libportaudio2 \
     libasound-dev libportaudio2 \
     libportaudiocpp0 ffmpeg libav-tools \
     libjack0 libjack-dev libjack-jackd2-dev
 
 # Para as bibliotecas de voz: PocketSphinx e SpeechRecognition
-apt-get install liblapack-dev liblapack3 \
+apt-get install -y liblapack-dev liblapack3 \
     libopenblas-base libopenblas-dev libatlas-base-dev
 
 
@@ -80,13 +80,15 @@ sed -i 'defaults.ctl.card 0/defaults.ctl.card 1/' /usr/share/alsa/alsa.conf
 
 cat <<EOT >> .asoundrc
 pcm.!default {
-    type hw
-    card 1
-}
-
-ctl.!default {
-    type hw
-    card 1
+  type asym
+   playback.pcm {
+     type plug
+     slave.pcm "hw:0,0"
+   }
+   capture.pcm {
+     type plug
+     slave.pcm "hw:1,0"
+   }
 }
 EOT
 mv .asoundrc /home/homeassistant/.asoundrc
