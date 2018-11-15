@@ -60,6 +60,9 @@ STATE_LISTENING = 'listening'
 # Currently decoding WAV data (speech to text)
 STATE_DECODING = 'decoding'
 
+# Fired when start recording
+EVENT_LISTENING = 'listening_to_microphone'
+
 # Fired when command has finished recording
 EVENT_SPEECH_RECORDED = 'speech_recorded'
 
@@ -111,7 +114,6 @@ def setup(hass, config):
 
     def detected_text(text):
         hass.states.set(OBJECT_POCKETSPHINX, STATE_IDLE, state_attrs)
-        hass.bus.async_fire(EVENT_SPEECH_RECORDED, {'name': name})
         hass.bus.async_fire(EVENT_SPEECH_TO_TEXT, {'name': name, 'text': text})
         _LOGGER.info("SERVICE SPEECH_RECOGNITION_STT DETECTED: %s" % text)
 
@@ -119,15 +121,16 @@ def setup(hass, config):
     # SERVICE LISTEN
 
     def listen(call):
-        hass.states.set(OBJECT_POCKETSPHINX, STATE_LISTENING, state_attrs)
-
         r = sr.Recognizer()
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source)
+            hass.states.set(OBJECT_POCKETSPHINX, STATE_LISTENING, state_attrs)
+            hass.bus.async_fire(EVENT_LISTENING, {'name': name, 'state': STATE_LISTENING})
             try:
                 _LOGGER.warning("SPEECH_RECOGNITION: LISTENING TO MICROPHONE")
                 audio = r.listen(source, timeout=timeout)
                 hass.states.set(OBJECT_POCKETSPHINX, STATE_DECODING, state_attrs)
+                hass.bus.async_fire(EVENT_SPEECH_RECORDED, {'name': name})
 
                 # recognize speech using Sphinx
                 speech = r.recognize_sphinx(audio, language=language, grammar=grammar)

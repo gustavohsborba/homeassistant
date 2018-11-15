@@ -78,6 +78,8 @@ SERVICE_DETECT = 'detect_commands'
 STATE_IDLE = 'idle'
 # Listening for the hotword
 STATE_LISTENING = 'listening'
+# Fired when start recording
+EVENT_LISTENING = 'listening_to_microphone'
 # Fired when the hotword is detected
 EVENT_SPEECH_RECORDED = 'speech_recorded'
 # Fired when decoding has finished
@@ -162,6 +164,7 @@ def setup(hass, config):
 
         from snowboy import snowboydecoder
         hass.states.async_set(OBJECT_SNOWBOY, STATE_LISTENING, state_attrs)
+        hass.bus.async_fire(EVENT_LISTENING, {'name': name, 'state': STATE_LISTENING})
 
         _LOGGER.info("MODELS LOADED: %s" % str(indexed_models))
         _LOGGER.info("MODELS: %s" % models)

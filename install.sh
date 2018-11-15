@@ -12,18 +12,18 @@ apt-get install -y vlc vlc-nox espeak
 apt-get install -y p7zip-full
 
 # Para as bibliotecas de voz: snowboy
+# apt-get install -y libjack0 libjack-dev
 apt-get install -y python-dev swig
-apt-get install -y portaudio19-dev
-apt-get install -y libasound2-dev libpulse-dev swig \
-    portaudio19-dev libttspico-utils \
-    libtcl8.6 libatlas-dev libatlas-base-dev
+apt-get install -y portaudio19-dev libjack-jackd2-dev
+apt-get install -y libasound2-dev libpulse-dev
+apt-get install -y libtcl8.6
+apt-get install -y libatlas-dev libatlas-base-dev
 
 # Para as bibliotecas de voz: vlc, pyttsx
 apt-get install -y vlc pulseaudio
-apt-get install -y libportaudio2 \
-    libasound-dev libportaudio2 \
-    libportaudiocpp0 ffmpeg libav-tools \
-    libjack0 libjack-dev libjack-jackd2-dev
+apt-get install -y libttspico-utils ffmpeg
+apt-get install -y libportaudio2 libav-tools
+apt-get install -y libasound-dev libportaudiocpp0
 
 # Para as bibliotecas de voz: PocketSphinx e SpeechRecognition
 apt-get install -y liblapack-dev liblapack3 \

@@ -12,6 +12,7 @@ from homeassistant.helpers import config_validation as cv
 
 DOMAIN = "speech"
 SERVICE_SPEAK = "speak"
+EVENT_TEXT_TO_SPEECH = 'text_to_speech'
 REQUIREMENTS = ['pyttsx3']
 _LOGGER = logging.getLogger(__name__)
 
@@ -72,7 +73,12 @@ def setup(hass, config):
             engine.say(message)
             engine.runAndWait()
 
-        _LOGGER.info('Spoken Successfully: %s' % ' '.join(messages).replace(',', ''))
+        spoken_message = ' '.join(messages).replace(',', '')
+        _LOGGER.info('Spoken Successfully: %s' % spoken_message)
+        hass.bus.async_fire(EVENT_TEXT_TO_SPEECH, {
+            'name': '%s.%s' % (DOMAIN, SERVICE_SPEAK),  # domain and name of the service
+            'message': spoken_message  # text
+        })
         engine.stop()
 
     # Register our service with Home Assistant.

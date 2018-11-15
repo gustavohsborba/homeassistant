@@ -18,12 +18,25 @@
     platform: event
     event_type: hotword_detected
   action:
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.speaker
+        media_content_id: /opt/cefetmg/data/etc/wav/command_recorded.wav
+        media_content_type: 'music'
+    - service: stt_speech_recognition.listen
+    # - service: stt_snowboy.detect_commands
+
+# Says a message to indicate start of the command
+- alias: "Started Listening Automation"
+  initial_state: true
+  trigger:
+    platform: event
+    event_type: listening_to_microphone
+  action:
     - service: speech.speak
       data:
         message: "Diga"
         speech_rate: 100
-    - service: stt_speech_recognition.listen
-    # - service: stt_snowboy.detect_commands
 
 # Play a sound when recording of a command has finished.
 - alias: "Command Recorded Event Automation"
