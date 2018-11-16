@@ -142,6 +142,7 @@ stt_snowboy:
     - 'ligar luz sala'
     - 'desligar luz sala'
     - 'ascender luz sala'
+    - 'apagar luz sala'
     - 'ligar luz quarto'
     - 'desligar luz quarto'
     - 'ascender luz quarto'
@@ -160,6 +161,7 @@ stt_snowboy:
     - 'desligar'
     - 'luz'
     - 'acender'
+    - 'apagar'
     - 'cozinha'
     - 'sala'
     - 'quarto'
@@ -176,6 +178,7 @@ stt_snowboy:
     - /opt/cefetmg/data/snowboy/desligar.pmdl
     - /opt/cefetmg/data/snowboy/luz.pmdl
     - /opt/cefetmg/data/snowboy/acender.pmdl
+    - /opt/cefetmg/data/snowboy/apagar.pmdl
     - /opt/cefetmg/data/snowboy/cozinha.pmdl
     - /opt/cefetmg/data/snowboy/sala.pmdl
     - /opt/cefetmg/data/snowboy/quarto.pmdl
@@ -195,12 +198,15 @@ intent_table:
     - 'ligar luz sala'
     - 'desligar luz sala'
     - 'ascender luz sala'
+    - 'apagar luz sala'
     - 'ligar luz quarto'
     - 'desligar luz quarto'
     - 'ascender luz quarto'
+    - 'apagar luz quarto'
     - 'ligar luz cozinha'
     - 'desligar luz cozinha'
     - 'ascender luz cozinha'
+    - 'apagar luz cozinha'
     - 'abra porta sala'
     - 'luz sala ligada'
     - 'luz quarto ligada'
@@ -212,12 +218,15 @@ intent_table:
     - "ON"
     - "OFF"
     - "ON"
+    - "OFF"
     - "ON"
     - "OFF"
     - "ON"
+    - "OFF"
     - "ON"
     - "OFF"
     - "ON"
+    - "OFF"
     - "ON"
     - "STATUS"
     - "STATUS"
@@ -229,9 +238,12 @@ intent_table:
     - hass/switch/sala/luz1/set
     - hass/switch/sala/luz1/set
     - hass/switch/sala/luz1/set
+    - hass/switch/sala/luz1/set
     - hass/switch/quarto/luz1/set
     - hass/switch/quarto/luz1/set
     - hass/switch/quarto/luz1/set
+    - hass/switch/quarto/luz1/set
+    - hass/switch/cozinha/luz1/set
     - hass/switch/cozinha/luz1/set
     - hass/switch/cozinha/luz1/set
     - hass/switch/cozinha/luz1/set

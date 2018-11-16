@@ -43,6 +43,7 @@ DEFAULT_TOPIC_LIST = []
 DEFAULT_PAYLOAD_LIST = []
 DEFAULT_MQTT_BROKER = 'localhost'
 DEFAULT_MQTT_PORT = 1883
+
 DEFAULT_MQTT_COMMAND_NOT_FOUND_TOPIC = 'hass/unknown_command'
 DEFAULT_MQTT_SUCCESS_TOPIC = 'hass/successful_command'
 DEFAULT_UNKNOWN_COMMAND = 'unknown_command'
@@ -114,6 +115,9 @@ def async_setup(hass, config):
     # After defining values and functions, register services in Home Assistant
     hass.services.async_register(DOMAIN, SERVICE_PARSE, parse)
     hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, terminate)
+    client = mqtt.Client()
+    client.connect(mqtt_broker, mqtt_port, 60)
+    client.publish('hass/say', "Olá eu sou o gênio")
     _LOGGER.info('INTENT_TABLE STARTED')
     return True
 

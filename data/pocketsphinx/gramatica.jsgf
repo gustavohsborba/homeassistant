@@ -3,8 +3,8 @@ grammar gramatica;
 public <gramatica> = <comando> | <abertura> | <som> | <consulta> | <abertura>;
 
 <local> = sala | quarto | cozinha;
-<comando> = (ligar | desligar) luz <local>;
+<comando> = (ligar | desligar | ascender | apagar) luz <local>;
 <abertura> = abra porta <local>;
 <som> = (aumente | diminua) volume;
-<consulta> = luz <local> está (ligada | desligada);
+<consulta> = luz <local> está (ligada | desligada | acesa | apagada);
 <abertura> = porta está (aberta | fechada);

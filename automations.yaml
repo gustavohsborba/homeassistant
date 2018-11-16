@@ -189,11 +189,13 @@
   action:
     - service: speech.speak
       data_template:
-        message: >
-          {{ trigger.event.data.message }}
+        message: |-
+          {% if trigger.payload['message'] %}
+            {{ trigger.payload['message'] }}
+          {% endif %}
         speech_rate: |-
-          {% if trigger.event.data.speech_rate %}
-            {{trigger.event.data.speech_rate}}
+          {% if trigger.payload['speech_rate'] %}
+            {{ trigger.payload['speech_rate'] }}
           {% else %}
             {{ 120 }}
           {% endif %}

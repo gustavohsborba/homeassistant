@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# ------------------------------------
+# GARANTE A EXECUÇÃO COMO SUPERUSUÁRIO
+# ------------------------------------
+
+if [[ "$(id -u)" -ne 0 ]]; then
+        echo 'Esse script deve ser rodado como root!' >&2
+        echo 'Execute sudo $0' >&2
+        exit 1
+fi
+
 # -----------------------
 # INSTALA AS DEPENDÊNCIAS
 # -----------------------
@@ -91,7 +101,7 @@ pcm.!default {
    }
 }
 EOT
-mv .asoundrc /home/homeassistant/.asoundrc
+cp .asoundrc /home/homeassistant/.asoundrc
 chown homeassistant:homeassistant /home/homeassistant/.asoundrc
 
 
