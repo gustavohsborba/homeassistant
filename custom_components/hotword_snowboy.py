@@ -135,6 +135,7 @@ def async_setup(hass, config):
 
         if not terminated:
             hass.states.async_set(OBJECT_SNOWBOY, STATE_IDLE, state_attrs)
+            _LOGGER.warning("HOTWORD_SNOWBOY: KEYWORD DETECTED")
 
             # Fire detected event
             hass.bus.async_fire(EVENT_HOTWORD_DETECTED, {

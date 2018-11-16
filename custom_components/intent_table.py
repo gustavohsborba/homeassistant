@@ -97,7 +97,7 @@ def async_setup(hass, config):
             client.publish(topic, payload)
             client.publish(success_topic, DEFAULT_SUCCESS_COMMAND)
             _LOGGER.info("PUBLISHED %s ON TOPIC %s" % (DEFAULT_SUCCESS_COMMAND, success_topic))
-            _LOGGER.info("PUBLISHED %s ON TOPIC %s" % (payload, topic))
+            _LOGGER.warning("PUBLISHED %s ON TOPIC %s" % (payload, topic))
         else:
             _LOGGER.warning("INTENT NOT FOUND: %s" % spoken_phrase)
             _LOGGER.warning("PUBLISHING : %s ON TOPIC %s" % (spoken_phrase, notfound_topic))

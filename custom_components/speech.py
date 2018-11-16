@@ -68,13 +68,14 @@ def setup(hass, config):
         engine = pyttsx3.init()
         engine.setProperty('voice', voice)
         engine.setProperty('rate', instance_speech_rate)
+        spoken_message = ' '.join(messages).replace(',', '')
 
+        _LOGGER.warning('Speaking: %s' % spoken_message)
         for message in messages:
             engine.say(message)
             engine.runAndWait()
 
-        spoken_message = ' '.join(messages).replace(',', '')
-        _LOGGER.info('Spoken Successfully: %s' % spoken_message)
+        _LOGGER.warning('Spoken Successfully: %s' % spoken_message)
         hass.bus.async_fire(EVENT_TEXT_TO_SPEECH, {
             'name': '%s.%s' % (DOMAIN, SERVICE_SPEAK),  # domain and name of the service
             'message': spoken_message  # text
