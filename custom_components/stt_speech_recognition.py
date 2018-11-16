@@ -131,6 +131,7 @@ def setup(hass, config):
                 audio = r.listen(source, timeout=timeout)
                 hass.states.set(OBJECT_POCKETSPHINX, STATE_DECODING, state_attrs)
                 hass.bus.async_fire(EVENT_SPEECH_RECORDED, {'name': name})
+                _LOGGER.warning("SPEECH_RECOGNITION: COMMAND RECORDED")
 
                 # recognize speech using Sphinx
                 speech = r.recognize_sphinx(audio, language=language, grammar=grammar)
