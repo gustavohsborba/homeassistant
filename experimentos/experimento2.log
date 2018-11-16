@@ -1,0 +1,295 @@
+
+TESTE 1:
+
+CORRETO
+2018-11-16 00:50:49 INFO (Thread-23) [snowboy] Keyword 1 detected at time: 2018-11-16 00:50:49
+2018-11-16 00:50:50 WARNING (Thread-12) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 00:50:52 INFO (Thread-14) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 00:51:07 WARNING (Thread-12) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: ligar luz quarto
+2018-11-16 00:51:07 INFO (MainThread) [custom_components.intent_table] PUBLISHED ON ON TOPIC hass/switch/quarto/luz1/set
+2018-11-16 00:51:07 INFO (MainThread) [homeassistant.helpers.script] Script Command Success Automation: Executing step call service
+2018-11-16 00:51:10 INFO (Thread-3) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+CORRETO
+2018-11-16 00:51:13 INFO (Thread-25) [snowboy] Keyword 1 detected at time: 2018-11-16 00:51:13
+2018-11-16 00:51:14 WARNING (Thread-9) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 00:51:15 INFO (Thread-20) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 00:51:25 WARNING (Thread-9) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: desligar luz quarto
+2018-11-16 00:51:25 INFO (MainThread) [custom_components.intent_table] PUBLISHED OFF ON TOPIC hass/switch/quarto/luz1/set
+2018-11-16 00:51:25 INFO (MainThread) [homeassistant.helpers.script] Script Command Success Automation: Executing step call service
+2018-11-16 00:51:28 INFO (Thread-19) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+
+
+
+TESTE 2:
+
+CORRETO
+2018-11-16 01:19:48 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:19:50 WARNING (Thread-7) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:19:50 WARNING (Thread-14) [custom_components.speech] Speaking: Diga
+2018-11-16 01:19:52 WARNING (Thread-14) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:19:57 WARNING (Thread-7) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:20:02 WARNING (Thread-7) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: ligar luz sala
+2018-11-16 01:20:02 WARNING (MainThread) [custom_components.intent_table] PUBLISHED ON ON TOPIC hass/switch/sala/luz1/set
+2018-11-16 01:20:02 WARNING (Thread-8) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 01:20:05 WARNING (Thread-8) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+CORRETO
+2018-11-16 01:21:37 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:21:38 WARNING (Thread-6) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:21:38 WARNING (Thread-12) [custom_components.speech] Speaking: Diga
+2018-11-16 01:21:39 WARNING (Thread-12) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:21:44 WARNING (Thread-6) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:21:49 WARNING (Thread-6) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: desligar luz sala
+2018-11-16 01:21:49 WARNING (MainThread) [custom_components.intent_table] PUBLISHED OFF ON TOPIC hass/switch/sala/luz1/set
+2018-11-16 01:21:50 WARNING (Thread-7) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 01:21:52 WARNING (Thread-7) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+CORRETO
+2018-11-16 01:26:11 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:26:12 WARNING (Thread-9) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:26:12 WARNING (Thread-11) [custom_components.speech] Speaking: Diga
+2018-11-16 01:26:13 WARNING (Thread-11) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:26:17 WARNING (Thread-9) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:26:22 WARNING (Thread-9) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: ligar luz quarto
+2018-11-16 01:26:22 WARNING (MainThread) [custom_components.intent_table] PUBLISHED ON ON TOPIC hass/switch/quarto/luz1/set
+2018-11-16 01:26:22 WARNING (Thread-19) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 01:26:25 WARNING (Thread-19) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+ERRADO
+2018-11-16 01:27:33 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:27:34 WARNING (Thread-18) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:27:34 WARNING (Thread-16) [custom_components.speech] Speaking: Diga
+2018-11-16 01:27:35 WARNING (Thread-16) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:27:39 WARNING (Thread-18) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:27:44 WARNING (Thread-18) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: ligar luz quarto
+2018-11-16 01:27:44 WARNING (MainThread) [custom_components.intent_table] PUBLISHED ON ON TOPIC hass/switch/quarto/luz1/set
+2018-11-16 01:27:44 WARNING (Thread-22) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 01:27:47 WARNING (Thread-22) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+ERRADO
+2018-11-16 01:28:39 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:28:40 WARNING (Thread-6) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:28:40 WARNING (Thread-7) [custom_components.speech] Speaking: Diga
+2018-11-16 01:28:41 WARNING (Thread-7) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:28:45 WARNING (Thread-6) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:28:50 WARNING (Thread-6) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: ligar luz quarto
+2018-11-16 01:28:50 WARNING (MainThread) [custom_components.intent_table] PUBLISHED ON ON TOPIC hass/switch/quarto/luz1/set
+2018-11-16 01:28:50 WARNING (Thread-16) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 01:28:53 WARNING (Thread-16) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+
+CORRETO
+2018-11-16 01:29:03 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:29:04 WARNING (Thread-18) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:29:04 WARNING (Thread-22) [custom_components.speech] Speaking: Diga
+2018-11-16 01:29:06 WARNING (Thread-22) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:29:11 WARNING (Thread-18) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:29:16 WARNING (Thread-18) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: desligar luz quarto
+2018-11-16 01:29:16 WARNING (MainThread) [custom_components.intent_table] PUBLISHED OFF ON TOPIC hass/switch/quarto/luz1/set
+2018-11-16 01:29:16 WARNING (Thread-14) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 01:29:18 WARNING (Thread-14) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+
+CORRETO
+2018-11-16 01:32:56 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:32:57 WARNING (Thread-7) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:32:58 WARNING (Thread-8) [custom_components.speech] Speaking: Diga
+2018-11-16 01:32:59 WARNING (Thread-8) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:33:04 WARNING (Thread-7) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:33:08 WARNING (Thread-7) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: ligar luz cozinha
+2018-11-16 01:33:09 WARNING (MainThread) [custom_components.intent_table] PUBLISHED ON ON TOPIC hass/switch/cozinha/luz1/set
+2018-11-16 01:33:09 WARNING (Thread-2) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 01:33:11 WARNING (Thread-2) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+
+NÃO COMPREENDEU
+2018-11-16 01:34:24 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:34:25 WARNING (Thread-14) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:34:26 WARNING (Thread-19) [custom_components.speech] Speaking: Diga
+2018-11-16 01:34:27 WARNING (Thread-19) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:34:28 WARNING (Thread-14) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:34:33 WARNING (Thread-14) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: Sphinx could not understand audio
+2018-11-16 01:34:33 WARNING (MainThread) [custom_components.intent_table] INTENT NOT FOUND: unknown_command
+2018-11-16 01:34:33 WARNING (MainThread) [custom_components.intent_table] PUBLISHING : unknown_command ON TOPIC hass/unknown_command
+2018-11-16 01:34:33 WARNING (Thread-8) [custom_components.speech] Speaking: Não Entendi.
+2018-11-16 01:34:35 WARNING (Thread-8) [custom_components.speech] Spoken Successfully: Não Entendi.
+
+
+CORRETO
+2018-11-16 01:35:44 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:35:45 WARNING (Thread-12) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:35:45 WARNING (Thread-20) [custom_components.speech] Speaking: Diga
+2018-11-16 01:35:47 WARNING (Thread-20) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:35:50 WARNING (Thread-12) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:35:55 WARNING (Thread-12) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: desligar luz cozinha
+2018-11-16 01:35:55 WARNING (MainThread) [custom_components.intent_table] PUBLISHED OFF ON TOPIC hass/switch/cozinha/luz1/set
+2018-11-16 01:35:55 WARNING (Thread-4) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 01:35:58 WARNING (Thread-4) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+
+
+CORRETO
+2018-11-16 01:48:16 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:48:18 WARNING (Thread-14) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:48:18 WARNING (Thread-8) [custom_components.speech] Speaking: Diga
+2018-11-16 01:48:19 WARNING (Thread-8) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:48:23 WARNING (Thread-14) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:48:28 WARNING (Thread-14) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: ascender luz cozinha
+2018-11-16 01:48:28 WARNING (MainThread) [custom_components.intent_table] PUBLISHED ON ON TOPIC hass/switch/cozinha/luz1/set
+2018-11-16 01:48:28 WARNING (Thread-3) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 01:48:31 WARNING (Thread-3) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+
+NÃO ENTENDEU
+2018-11-16 01:50:26 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:50:27 WARNING (Thread-8) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:50:28 WARNING (Thread-6) [custom_components.speech] Speaking: Diga
+2018-11-16 01:50:29 WARNING (Thread-6) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:50:29 WARNING (Thread-8) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:50:34 WARNING (Thread-8) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: Sphinx could not understand audio
+2018-11-16 01:50:34 WARNING (MainThread) [custom_components.intent_table] INTENT NOT FOUND: unknown_command
+2018-11-16 01:50:34 WARNING (MainThread) [custom_components.intent_table] PUBLISHING : unknown_command ON TOPIC hass/unknown_command
+2018-11-16 01:50:34 WARNING (Thread-21) [custom_components.speech] Speaking: Não Entendi.
+2018-11-16 01:50:36 WARNING (Thread-21) [custom_components.speech] Spoken Successfully: Não Entendi.
+
+
+
+CORRETO
+2018-11-16 01:52:13 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:52:14 WARNING (Thread-4) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:52:14 WARNING (Thread-10) [custom_components.speech] Speaking: Diga
+2018-11-16 01:52:16 WARNING (Thread-10) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:52:18 WARNING (Thread-4) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:52:23 WARNING (Thread-4) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: abra porta sala
+2018-11-16 01:52:23 WARNING (MainThread) [custom_components.intent_table] PUBLISHED PULSE ON TOPIC hass/switch/sala/porta1/set
+2018-11-16 01:52:24 WARNING (Thread-8) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 01:52:27 WARNING (Thread-8) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+
+INCORRETO : Luz da sala ligada?
+2018-11-16 01:53:32 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 01:53:34 WARNING (Thread-5) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 01:53:34 WARNING (Thread-15) [custom_components.speech] Speaking: Diga
+2018-11-16 01:53:35 WARNING (Thread-15) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 01:53:38 WARNING (Thread-5) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 01:53:43 WARNING (Thread-5) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: ligar luz quarto
+2018-11-16 01:53:43 WARNING (MainThread) [custom_components.intent_table] PUBLISHED ON ON TOPIC hass/switch/quarto/luz1/set
+2018-11-16 01:53:43 WARNING (Thread-6) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 01:53:46 WARNING (Thread-6) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+
+
+INCORRETO: Desligar luz do quarto
+2018-11-16 02:01:19 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 02:01:21 WARNING (Thread-8) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 02:01:21 WARNING (Thread-16) [custom_components.speech] Speaking: Diga
+2018-11-16 02:01:23 WARNING (Thread-16) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 02:01:25 WARNING (Thread-8) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 02:01:30 WARNING (Thread-8) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: ligar luz quarto
+2018-11-16 02:01:30 WARNING (MainThread) [custom_components.intent_table] PUBLISHED ON ON TOPIC hass/switch/quarto/luz1/set
+2018-11-16 02:01:30 WARNING (Thread-18) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 02:01:33 WARNING (Thread-18) [custom_components.speech] Spoken Successfully: Seu desejo e uma ordem!
+
+
+
+
+
+
+
+
+NÃO ENTENDEU: luz sala ligada?
+2018-11-16 02:05:03 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 02:05:04 WARNING (Thread-12) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 02:05:04 WARNING (Thread-7) [custom_components.speech] Speaking: Diga
+2018-11-16 02:05:06 WARNING (Thread-7) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 02:05:06 WARNING (Thread-12) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 02:05:11 WARNING (Thread-12) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: Sphinx could not understand audio
+2018-11-16 02:05:11 WARNING (MainThread) [custom_components.intent_table] INTENT NOT FOUND: unknown_command
+2018-11-16 02:05:11 WARNING (MainThread) [custom_components.intent_table] PUBLISHING : unknown_command ON TOPIC hass/unknown_command
+2018-11-16 02:05:11 WARNING (Thread-2) [custom_components.speech] Speaking: Não Entendi.
+2018-11-16 02:05:13 WARNING (Thread-2) [custom_components.speech] Spoken Successfully: Não Entendi.
+
+
+
+NÃO ENTENDEU: luz sala ligada?
+2018-11-16 02:05:14 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 02:05:15 WARNING (Thread-17) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 02:05:15 WARNING (Thread-9) [custom_components.speech] Speaking: Diga
+2018-11-16 02:05:17 WARNING (Thread-9) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 02:05:17 WARNING (Thread-17) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 02:05:21 WARNING (Thread-17) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: Sphinx could not understand audio
+2018-11-16 02:05:21 WARNING (MainThread) [custom_components.intent_table] INTENT NOT FOUND: unknown_command
+2018-11-16 02:05:21 WARNING (MainThread) [custom_components.intent_table] PUBLISHING : unknown_command ON TOPIC hass/unknown_command
+2018-11-16 02:05:22 WARNING (Thread-21) [custom_components.speech] Speaking: Não Entendi.
+2018-11-16 02:05:23 WARNING (Thread-21) [custom_components.speech] Spoken Successfully: Não Entendi.
+
+
+NÃO ENTENDEU: luz quarto está ligada?
+2018-11-16 02:05:34 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 02:05:35 WARNING (Thread-6) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 02:05:36 WARNING (Thread-7) [custom_components.speech] Speaking: Diga
+2018-11-16 02:05:37 WARNING (Thread-7) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 02:05:39 WARNING (Thread-6) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 02:05:43 WARNING (Thread-6) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: Sphinx could not understand audio
+2018-11-16 02:05:43 WARNING (MainThread) [custom_components.intent_table] INTENT NOT FOUND: unknown_command
+2018-11-16 02:05:43 WARNING (MainThread) [custom_components.intent_table] PUBLISHING : unknown_command ON TOPIC hass/unknown_command
+2018-11-16 02:05:44 WARNING (Thread-2) [custom_components.speech] Speaking: Não Entendi.
+2018-11-16 02:05:45 WARNING (Thread-2) [custom_components.speech] Spoken Successfully: Não Entendi.
+
+
+ERRADO: porta sala aberta?
+2018-11-16 02:05:54 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 02:05:55 WARNING (Thread-9) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 02:05:55 WARNING (Thread-18) [custom_components.speech] Speaking: Diga
+2018-11-16 02:05:57 WARNING (Thread-18) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 02:06:01 WARNING (Thread-9) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 02:06:06 WARNING (Thread-9) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: abra porta quarto
+2018-11-16 02:06:06 WARNING (MainThread) [custom_components.intent_table] INTENT NOT FOUND: abra porta quarto
+2018-11-16 02:06:06 WARNING (MainThread) [custom_components.intent_table] PUBLISHING : abra porta quarto ON TOPIC hass/unknown_command
+
+
+CORRETO: diminua o volume
+2018-11-16 02:06:31 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 02:06:32 WARNING (Thread-3) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 02:06:32 WARNING (Thread-8) [custom_components.speech] Speaking: Diga
+2018-11-16 02:06:33 WARNING (Thread-8) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 02:06:35 WARNING (Thread-3) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 02:06:40 WARNING (Thread-3) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: diminua volume
+2018-11-16 02:06:40 WARNING (MainThread) [custom_components.intent_table] PUBLISHED decrease ON TOPIC hass/speaker/volume
+2018-11-16 02:06:40 WARNING (Thread-21) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 02:06:40 WARNING (Thread-5) [custom_components.speech] Speaking: O volume foi alterado
+2018-11-16 02:06:42 WARNING (Thread-5) [custom_components.speech] Spoken Successfully: O volume foi alterado
+
+
+
+CORRETO: aumente o volume
+2018-11-16 02:06:31 WARNING (MainThread) [custom_components.hotword_snowboy] HOTWORD_SNOWBOY: KEYWORD DETECTED
+2018-11-16 02:06:32 WARNING (Thread-3) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: LISTENING TO MICROPHONE
+2018-11-16 02:06:32 WARNING (Thread-8) [custom_components.speech] Speaking: Diga
+2018-11-16 02:06:33 WARNING (Thread-8) [custom_components.speech] Spoken Successfully: Diga
+2018-11-16 02:06:35 WARNING (Thread-3) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: COMMAND RECORDED
+2018-11-16 02:06:40 WARNING (Thread-3) [custom_components.stt_speech_recognition] SPEECH_RECOGNITION: SPEECH RECOGNIZED: diminua volume
+2018-11-16 02:06:40 WARNING (MainThread) [custom_components.intent_table] PUBLISHED decrease ON TOPIC hass/speaker/volume
+2018-11-16 02:06:40 WARNING (Thread-21) [custom_components.speech] Speaking: Seu desejo e uma ordem!
+2018-11-16 02:06:40 WARNING (Thread-5) [custom_components.speech] Speaking: O volume foi alterado
+2018-11-16 02:06:42 WARNING (Thread-5) [custom_components.speech] Spoken Successfully: O volume foi alterado
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
